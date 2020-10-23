@@ -2,7 +2,7 @@ import React from "react";
 
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ReactComponent as Logo } from "../../assests/trello.svg";
+// import { ReactComponent as Logo } from "../../assests/trello.svg";
 import HeaderOverlay from "../headerOverlay/headerOverlay-com";
 import { signOutStart } from "./../../redux/users/user.actions";
 

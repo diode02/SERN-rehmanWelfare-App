@@ -46,7 +46,7 @@ router.post("/", async (req, res, next) => {
     const response = await db.customers.create(req.body);
     res.status(201).send(response);
   } catch (error) {
-    res.status(400).send({ error });
+    res.status(400).send(error.original);
   }
 });
 
@@ -59,7 +59,6 @@ router.delete("/:customer_id", async (req, res, next) => {
     });
     res.status(200).send({ totalDeleted: response });
   } catch (error) {
-    // console.log(error);
     res.status(400).send(error);
   }
 });

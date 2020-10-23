@@ -15,7 +15,6 @@ router.get("/", async (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
   try {
-    console.log(req.body);
     const response = await db.users.findOne({
       where: {
         ...req.body,
@@ -45,7 +44,6 @@ router.delete("/", async (req, res, next) => {
     });
     res.sendStatus(200).send(response);
   } catch (error) {
-    console.log(error);
     res.sendStatus(400).send(error);
   }
 });

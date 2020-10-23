@@ -6,27 +6,21 @@ const db = require("../src/models");
 /* GET users listing. */
 router.get("/", async (req, res, next) => {
   try {
-    const response = await db.installments_payments.findAll({
-      where: {
-        ...req.body,
-      },
-    });
+    const response = await db.installments_payments.findAll();
     res.status(200).send(response);
   } catch (error) {
     res.status(401).send({ error });
   }
 });
 
-router.get("/attributes", async (req, res, next) => {
+router.post("/get", async (req, res, next) => {
   try {
     const response = await db.installments_payments.findAll({
-      where: {
-        ...req.body.where,
-      },
+      ...req.body,
     });
     res.status(200).send(response);
   } catch (error) {
-    res.status(401).send({ error });
+    res.status(401).send(error.original);
   }
 });
 
@@ -44,7 +38,6 @@ router.get("/:installments_payments_id", async (req, res, next) => {
 router.patch("/", async (req, res, next) => {
   const alllowedUpdates = ["penality", "amount_received", "username_id"];
   const updates = Object.keys(req.body.updates);
-  console.log(updates);
   const isvalidOrNot = updates.every((update) =>
     alllowedUpdates.includes(update)
   );

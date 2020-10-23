@@ -6,23 +6,17 @@ const db = require("../src/models");
 /* GET users listing. */
 router.get("/", async (req, res, next) => {
   try {
-    const response = await db.orders.findAll({
-      where: {
-        ...req.body,
-      },
-    });
+    const response = await db.orders.findAll();
     res.status(200).send(response);
   } catch (error) {
     res.status(401).send({ error });
   }
 });
 
-router.get("/attributes", async (req, res, next) => {
+router.post("/get", async (req, res, next) => {
   try {
     const response = await db.orders.findAll({
-      where: {
-        ...req.body.where,
-      },
+      ...req.body,
     });
     res.status(200).send(response);
   } catch (error) {
@@ -57,7 +51,7 @@ router.post("/", async (req, res, next) => {
     const response = await db.orders.create(req.body);
     res.status(201).send(response);
   } catch (error) {
-    res.status(400).send({ error });
+    res.status(400).send(error.original);
   }
 });
 

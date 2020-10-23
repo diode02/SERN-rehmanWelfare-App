@@ -62,7 +62,6 @@ router.get("/:receipts_id", async (req, res, next) => {
 // router.patch("/", async (req, res, next) => {
 //   const alllowedUpdates = ["product_name", "category_id", "price"];
 //   const updates = Object.keys(req.body.updates);
-//   console.log(updates);
 //   const isvalidOrNot = updates.every((update) =>
 //     alllowedUpdates.includes(update)
 //   );

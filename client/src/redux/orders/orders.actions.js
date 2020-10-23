@@ -13,3 +13,18 @@ export const fetchOrdersFailure = (errorMessage) => ({
   type: OrdersActionTypes.FETCH_ORDERS_FAILURE,
   payload: errorMessage,
 });
+
+export const postOrderStart = (order) => ({
+  type: OrdersActionTypes.POST_ORDER_START,
+  payload: order,
+});
+
+export const postOrderSuccess = (order) => ({
+  type: OrdersActionTypes.POST_ORDER_SUCCESS,
+  payload: order,
+});
+
+export const postOrderFailure = (errorMessage) => ({
+  type: OrdersActionTypes.POST_ORDER_FAILURE,
+  payload: errorMessage,
+});

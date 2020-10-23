@@ -6,14 +6,12 @@ import OrdersPageContainer from "./all-orders.cont";
 import { fetchOrdersStart } from "../../redux/orders/orders.actions";
 
 const OrdersSpinnerPage = ({ match, history }) => {
-  //   const currentUser = useSelector((state) => state.user.currentUser);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // if (currentUser && history.action !== "PUSH") {
     dispatch(fetchOrdersStart());
     // }
-  }, []);
+  }, [dispatch]);
   return (
     <div>
       <Route exact path={`${match.path}`} component={OrdersPageContainer} />

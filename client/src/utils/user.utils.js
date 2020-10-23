@@ -12,7 +12,6 @@ export async function createUserWithEmailAndPassword(userData) {
       return response.data.data;
     })
     .catch((error) => {
-      console.log(error.response.data);
       throw error.response.data;
     });
   return response;

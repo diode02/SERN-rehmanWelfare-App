@@ -5,30 +5,30 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
 const AllOrders = () => {
-  const orders = useSelector((state) => state.orders.orders);
-  let ordersModi = orders.map((order) => {
-    return {
-      order_id: order.order_id,
-      product_id: order.product_id,
-      customer_id: order.customer_id,
-      total: order.total,
-      order_status: order.order_status,
-      username_id: order.username_id,
-      createdAt: order.createdAt,
-      subData: [
-        {
-          order_id: order.order_id,
-          guarantor_one_id: order.guarantor_one_id,
-          guarantor_two_id: order.guarantor_two_id,
-          guarantor_three_id: order.guarantor_three_id,
-          discount: order.discount,
-          downpayment: order.downpayment,
-          total_installments: order.total_installments,
-          quantity: order.quantity,
-        },
-      ],
-    };
-  });
+  const ordersModi = useSelector((state) => state.orders.orders);
+  // let ordersModi = orders.map((order) => {
+  //   return {
+  //     order_id: order.order_id,
+  //     product_id: order.product_id,
+  //     customer_id: order.customer_id,
+  //     total: order.total,
+  //     order_status: order.order_status,
+  //     username_id: order.username_id,
+  //     createdAt: order.createdAt,
+  //     subData: [
+  //       {
+  //         order_id: order.order_id,
+  //         guarantor_one_id: order.guarantor_one_id,
+  //         guarantor_two_id: order.guarantor_two_id,
+  //         guarantor_three_id: order.guarantor_three_id,
+  //         discount: order.discount,
+  //         downpayment: order.downpayment,
+  //         total_installments: order.total_installments,
+  //         quantity: order.quantity,
+  //       },
+  //     ],
+  //   };
+  // });
   const formateStatus = (rowData) => {
     return rowData.order_status ? "Paid" : "Un Paid";
   };

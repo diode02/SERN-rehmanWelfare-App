@@ -4,12 +4,23 @@ const db = require("../src/models");
 
 // const User = require("../src/models/user");
 /* GET users listing. */
+// router.get("/", async (req, res, next) => {
+//   try {
+//     const response = await db.products.findAll({
+//       where: {
+//         ...req.body,
+//       },
+//     });
+//     res.status(200).send(response);
+//   } catch (error) {
+//     res.status(401).send({ error });
+//   }
+// });
+
 router.get("/", async (req, res, next) => {
   try {
     const response = await db.products.findAll({
-      where: {
-        ...req.body,
-      },
+      ...req.body,
     });
     res.status(200).send(response);
   } catch (error) {
@@ -17,12 +28,10 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/attributes", async (req, res, next) => {
+router.post("/get", async (req, res, next) => {
   try {
     const response = await db.products.findAll({
-      where: {
-        ...req.body.where,
-      },
+      ...req.body,
     });
     res.status(200).send(response);
   } catch (error) {
@@ -64,7 +73,6 @@ router.delete("/:product_id", async (req, res, next) => {
 router.patch("/", async (req, res, next) => {
   const alllowedUpdates = ["product_name", "category_id", "price"];
   const updates = Object.keys(req.body.updates);
-  console.log(updates);
   const isvalidOrNot = updates.every((update) =>
     alllowedUpdates.includes(update)
   );

@@ -3,14 +3,14 @@ import { useHistory } from "react-router-dom";
 
 import { Box } from "@chakra-ui/core";
 import { SimpleGrid } from "@chakra-ui/core";
+import NewCustomer from "../../components/new-customer/new-customer.com";
 const HomePage = (props) => {
   let history = useHistory();
-
   let items = [
     {
       label: "New Order",
       command: () => {
-        history.push("/new-order");
+        history.push("/neworder");
       },
     },
     {
@@ -22,7 +22,7 @@ const HomePage = (props) => {
     {
       label: "Pay Installments",
       command: () => {
-        history.push("/pay-installments");
+        history.push("/payinstallment");
       },
     },
     {
@@ -34,7 +34,7 @@ const HomePage = (props) => {
     {
       label: "New Cutsomer",
       command: () => {
-        history.push("/new-customer");
+        history.push("/newcustomer");
       },
     },
     {
@@ -48,6 +48,7 @@ const HomePage = (props) => {
     <Box>
       <SimpleGrid columns={3} spacing={10}>
         <Box bg="tomato" height="100px"></Box>
+        <NewCustomer />
         <SimpleGrid columns={3} spacing={10}>
           {items.map((item) => (
             <Box

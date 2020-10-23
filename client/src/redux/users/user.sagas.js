@@ -39,7 +39,6 @@ export function* signinWithEmail({ payload: { username_id, password } }) {
 }
 
 export function* updateUser({ payload }) {
-  console.log(payload);
   try {
     const user = yield updateUserAsync(payload);
     yield put(updateUserSuccess(user));

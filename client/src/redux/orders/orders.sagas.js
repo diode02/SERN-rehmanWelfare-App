@@ -1,6 +1,11 @@
 import { takeLatest, call, put, all } from "redux-saga/effects";
-import { getOdersAPI } from "../../utils/orders.utils";
-import { fetchOrdersSuccess, fetchOrdersFailure } from "./orders.actions";
+import { getOdersAPI, postOdersAPI } from "../../utils/orders.utils";
+import {
+  fetchOrdersSuccess,
+  fetchOrdersFailure,
+  postOrderSuccess,
+  postOrderFailure,
+} from "./orders.actions";
 import OrdersActionTypes from "./orders.types";
 
 export function* fetchOrdersStartAsync({ payload }) {
@@ -16,6 +21,19 @@ export function* onFetchOrdersStart() {
   yield takeLatest(OrdersActionTypes.FETCH_ORDERS_START, fetchOrdersStartAsync);
 }
 
+export function* postOrderStartAsync({ payload }) {
+  try {
+    const order = yield postOdersAPI(payload);
+    yield put(postOrderSuccess(order));
+  } catch (error) {
+    yield put(postOrderFailure(error));
+  }
+}
+
+export function* onPostOrderStart() {
+  yield takeLatest(OrdersActionTypes.POST_ORDER_START, postOrderStartAsync);
+}
+
 export function* ordersSagas() {
-  yield all([call(onFetchOrdersStart)]);
+  yield all([call(onFetchOrdersStart), call(onPostOrderStart)]);
 }

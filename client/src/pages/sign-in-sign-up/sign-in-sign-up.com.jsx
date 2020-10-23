@@ -4,7 +4,7 @@ import { Redirect } from "react-router";
 
 // import "./sign-in-sign-up.sty.scss";
 import SignUp from "../../components/signUp/signup-com";
-import { Input, Box } from "@chakra-ui/core";
+import SignIn from "../../components/signIn/sign-in.com";
 
 const SignInSignUp = ({ match }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -15,12 +15,9 @@ const SignInSignUp = ({ match }) => {
 
   if (match.url === "/login") {
     return (
-      // <div className="sign-in-sign-up">
-      // <SignIn />
-      // </div>
-      <Box>
-        <Input placeholder="Basic usage" />
-      </Box>
+      <div>
+        <SignIn />
+      </div>
     );
   } else
     return (

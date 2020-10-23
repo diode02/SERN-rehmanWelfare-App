@@ -66,6 +66,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    note: {
+      type: DataTypes.STRING(100),
+      allowNull: true
     }
   }, {
     sequelize,
