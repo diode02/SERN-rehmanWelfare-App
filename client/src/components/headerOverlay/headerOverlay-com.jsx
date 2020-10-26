@@ -10,16 +10,11 @@ const HeaderOverlay = ({ items }) => {
       <Button
         type="button"
         label="User"
-        style={
-          {
-            // backgroundImage: `url(${imgData})`,
-            // borderRadius: "50%",
-            // height: "50px",
-            // width: "50px",
-            // backgroundSize: "cover",
-            // backgroundPosition: "center center",
-          }
-        }
+        style={{
+          marginRight: "20px",
+          borderRadius: "10px",
+          fontWeight: "bolder",
+        }}
         onClick={(event) => overlayToogle.toggle(event)}
       />
       <Menu model={items} popup ref={(el) => (overlayToogle = el)} />

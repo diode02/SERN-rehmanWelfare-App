@@ -36,7 +36,12 @@ router.get("/:installments_payments_id", async (req, res, next) => {
 });
 
 router.patch("/", async (req, res, next) => {
-  const alllowedUpdates = ["penality", "amount_received", "username_id"];
+  const alllowedUpdates = [
+    "penality",
+    "amount_received",
+    "username_id",
+    "note",
+  ];
   const updates = Object.keys(req.body.updates);
   const isvalidOrNot = updates.every((update) =>
     alllowedUpdates.includes(update)

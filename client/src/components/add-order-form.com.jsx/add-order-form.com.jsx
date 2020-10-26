@@ -43,7 +43,9 @@ const AddOrderForm = () => {
         });
       }
   }, [customers, displayBasic, prevCustomer, toast]);
-
+  const username_id = useSelector(
+    (state) => state.user.currentUser.username_id
+  );
   const [orderData, setOrderData] = useState({
     customer_id: "",
     product_id: "",
@@ -57,6 +59,7 @@ const AddOrderForm = () => {
     total: 0,
     downpayment: 0,
     date_of_entry: "",
+    username_id,
   });
   const {
     customer_id,
@@ -86,9 +89,55 @@ const AddOrderForm = () => {
       });
     } else setOrderData({ ...orderData, [name]: value });
   };
-  const onChangeDrop = ({ target }) => {
-    const { name, value } = target;
+
+  const onChangeDrop = ({ target, value }) => {
+    const { name } = target;
+
+    switch (name) {
+      case "guarantor_one_id":
+        if (
+          value === guarantor_two_id ||
+          value === guarantor_three_id ||
+          value === customer_id
+        ) {
+          alert("Customers and Gurrantors must be unique");
+          return;
+        }
+        break;
+      case "guarantor_two_id":
+        if (
+          value === guarantor_three_id ||
+          value === guarantor_one_id ||
+          value === customer_id
+        ) {
+          alert("Customers and Gurrantors must be unique");
+          return;
+        }
+        break;
+      case "guarantor_three_id":
+        if (
+          value === guarantor_two_id ||
+          value === guarantor_one_id ||
+          value === customer_id
+        ) {
+          alert("Customers and Gurrantors must be unique");
+          return;
+        }
+        break;
+      case "customer_id":
+        if (
+          value === guarantor_two_id ||
+          value === guarantor_one_id ||
+          value === guarantor_three_id
+        ) {
+          alert("Customers and Gurrantors must be unique");
+          return;
+        }
+        break;
+    }
+
     setOrderData({ ...orderData, [name]: value });
+    // } else setOrderData({ ...orderData, [name]: value });
   };
 
   const handleSubmit = (event) => {
@@ -112,9 +161,10 @@ const AddOrderForm = () => {
           <label htmlFor="cnic">Customer CNIC Number</label>
           <Dropdown
             value={customer_id}
+            name="customer_id"
             options={customers}
             onChange={(e) => {
-              setOrderData({ ...orderData, customer_id: e.value });
+              onChangeDrop(e);
             }}
             placeholder="Select CNIC"
             filter
@@ -125,6 +175,7 @@ const AddOrderForm = () => {
           <label htmlFor="product_id">Prodcut ID</label>
           <Dropdown
             value={product_id}
+            name="product_id"
             options={products_id_name}
             onChange={(e) => {
               // setOrderData({ ...orderData, product_id: e.value });
@@ -146,9 +197,10 @@ const AddOrderForm = () => {
           <label htmlFor="cnic">Gurantor One</label>
           <Dropdown
             value={guarantor_one_id}
+            name="guarantor_one_id"
             options={customers}
             onChange={(e) => {
-              setOrderData({ ...orderData, guarantor_one_id: e.value });
+              onChangeDrop(e);
             }}
             placeholder="Select CNIC"
             filter
@@ -159,9 +211,10 @@ const AddOrderForm = () => {
           <label htmlFor="cnic">Gurantor Two</label>
           <Dropdown
             value={guarantor_two_id}
+            name="guarantor_two_id"
             options={customers}
             onChange={(e) => {
-              setOrderData({ ...orderData, guarantor_two_id: e.value });
+              onChangeDrop(e);
             }}
             placeholder="Select CNIC"
             filter
@@ -172,9 +225,10 @@ const AddOrderForm = () => {
           <label htmlFor="cnic">Gurantor Three</label>
           <Dropdown
             value={guarantor_three_id}
+            name="guarantor_three_id"
             options={customers}
             onChange={(e) => {
-              setOrderData({ ...orderData, guarantor_three_id: e.value });
+              onChangeDrop(e);
             }}
             placeholder="Select CNIC"
             filter

@@ -25,7 +25,7 @@ const Header = () => {
       label: "Account",
       icon: "pi pi-user",
       command: () => {
-        history.push("/dashboard");
+        // history.push("/dashboard");
       },
     },
     {

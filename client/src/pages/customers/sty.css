@@ -7,3 +7,6 @@
 .p-scrollpanel.custombar1 .p-scrollpanel-bar:hover {
   background-color: #007ad9;
 }
+.p-column-filter {
+  width: 90%;
+}

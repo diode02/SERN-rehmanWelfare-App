@@ -68,7 +68,7 @@ const NewCustomer = () => {
   };
   return (
     <div className="card">
-      <Toast ref={(el) => (toast = el)} />
+      <Toast ref={(el) => (toast = el)}></Toast>
 
       <Button
         label="Add Customer"
@@ -76,10 +76,6 @@ const NewCustomer = () => {
         onClick={() => onClick()}
         style={{
           float: "right",
-          display: "absolute",
-          top: "50px",
-          right: "20px",
-          zIndex: "5",
         }}
       />
       {/* <div onClick={() => onClick()}>Add Customer</div> */}

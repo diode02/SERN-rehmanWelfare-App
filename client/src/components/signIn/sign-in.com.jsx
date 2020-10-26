@@ -31,21 +31,37 @@ const SignIn = () => {
     <div>
       <div
         style={{
-          width: "15%",
+          width: "40%",
           margin: "0 auto",
+          textAlign: "center",
+          backgroundColor: "rgb(96%, 96%, 96%)",
+          borderRadius: "10px",
+          fontWeight: "bolder",
+          marginTop: "10%",
         }}
       >
-        <h1>SIGNIN</h1>
-        <form className="p-field p-grid" onSubmit={handleSubmit}>
+        <h1
+          style={{
+            fontWeight: "bolder",
+            fontSize: "1.7rem",
+            color: "gray",
+          }}
+        >
+          SIGNIN
+        </h1>
+        <form
+          className="p-fluid"
+          onSubmit={handleSubmit}
+          style={{
+            textAlign: "left",
+            padding: "40px",
+          }}
+        >
           <div>
-            <label
-              className="p-col-fixed"
-              htmlFor="email"
-              style={{ width: "100px" }}
-            >
+            <label className="" htmlFor="email">
               User Name
             </label>
-            <div className="p-col">
+            <div className="">
               <InputText
                 id="email"
                 name="username_id"
@@ -72,10 +88,21 @@ const SignIn = () => {
           </div>
 
           <br />
-          <Button type="submit" value="Signin">
+          <Button
+            type="submit"
+            value="Signin"
+            style={{
+              width: "23%",
+            }}
+          >
             Sign in
           </Button>
-          <div className="create__new">
+          <div
+            className=""
+            style={{
+              fontWeight: "bolder",
+            }}
+          >
             Dont have an account? <Link to="/login">Create new</Link>
           </div>
         </form>

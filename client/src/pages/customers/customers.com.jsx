@@ -28,7 +28,13 @@ const CustomersPage = () => {
     <div>
       <NewCustomer />
       <ScrollPanel
-        style={{ width: "100%", height: "80vh" }}
+        style={{
+          width: "100%",
+          height: "80vh",
+          // display: "absolute",
+          // top: "150px",
+          // zIndex: "5",
+        }}
         className="custombar1"
       >
         <DataTable

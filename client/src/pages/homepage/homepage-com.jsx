@@ -1,9 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-
-import { Box } from "@chakra-ui/core";
-import { SimpleGrid } from "@chakra-ui/core";
-import NewCustomer from "../../components/new-customer/new-customer.com";
+import { MenuItemContainer } from "./homepage-sty";
 const HomePage = (props) => {
   let history = useHistory();
   let items = [
@@ -14,7 +11,7 @@ const HomePage = (props) => {
       },
     },
     {
-      label: "All orders",
+      label: "All Orders",
       command: () => {
         history.push("/orders");
       },
@@ -45,25 +42,33 @@ const HomePage = (props) => {
     },
   ];
   return (
-    <Box>
-      <SimpleGrid columns={3} spacing={10}>
-        <Box bg="tomato" height="100px"></Box>
-        <NewCustomer />
-        <SimpleGrid columns={3} spacing={10}>
-          {items.map((item) => (
-            <Box
-              bg="tomato"
-              height="100px"
+    <div
+      className="p-grid p-align-stretch vertical-container"
+      style={{
+        padding: "2%",
+        color: "white",
+        width: "98%",
+      }}
+    >
+      {items.map((item) => {
+        return (
+          <div key={item.label} className="p-col-4">
+            <MenuItemContainer
+              className="box box-stretched"
               onClick={item.command}
-              key={item.label}
             >
               {item.label}
-            </Box>
-          ))}
-        </SimpleGrid>
-        <Box bg="tomato" height="100px"></Box>
-      </SimpleGrid>
-    </Box>
+            </MenuItemContainer>
+          </div>
+        );
+      })}
+      {/* <div className="p-col">
+        <div className="box box-stretched">4</div>
+      </div>
+      <div className="p-col">
+        <div className="box box-stretched">4</div>
+      </div> */}
+    </div>
   );
 };
 

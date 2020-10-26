@@ -82,14 +82,34 @@ const PayInstallmentsPage = () => {
     return inputTextEditor(installment_key, props, "amount_received");
   };
 
+  const updateInstallment = (install) => {
+    setInstallments(
+      installments.map((installment) => {
+        if (
+          installment.installments_payment_id ===
+          install.installments_payment_id
+        ) {
+          return install;
+        }
+        return installment;
+      })
+    );
+  };
+
   return (
-    <div className="p-grid">
+    <div
+      className="p-grid"
+      style={{
+        width: "99%",
+        margin: "0 auto",
+      }}
+    >
       <ScrollPanel
-        style={{ width: "50%", height: "40vh" }}
+        style={{ width: "50%", height: "40vh", border: "solid 2px gray" }}
         className="p-col-6 custombar1"
       >
         <DataTable
-          header="Select Customer"
+          // header="Select Customer"
           className="p-datatable-sm"
           value={customers}
           selection={selectedCustomer}
@@ -98,18 +118,30 @@ const PayInstallmentsPage = () => {
             getOdersApiInstallment({
               where: { customer_id: e.value.customer_id },
             }).then((res) => setOrders(res));
+            if (installments) setInstallments(null);
+            if (selectedOrder) setSelectedOrder(null);
           }}
           selectionMode="single"
           dataKey="customer_id"
         >
-          <Column field="customer_id" header="Customer ID"></Column>
-          <Column field="first_name" header="First Name"></Column>
-          <Column field="last_name" header="Last Name"></Column>
+          <Column
+            field="customer_id"
+            header="Customer ID"
+            filter
+            sortable
+          ></Column>
+          <Column
+            field="first_name"
+            header="First Name"
+            filter
+            sortable
+          ></Column>
+          <Column field="last_name" header="Last Name" filter sortable></Column>
         </DataTable>
       </ScrollPanel>
 
       <ScrollPanel
-        style={{ width: "50%", height: "40vh" }}
+        style={{ width: "50%", height: "40vh", border: "solid 2px gray" }}
         className="custombar1 p-col-6"
       >
         {orders ? (
@@ -133,16 +165,11 @@ const PayInstallmentsPage = () => {
             </DataTable>
           </div>
         ) : (
-          <ProgressSpinner
-            style={{
-              width: "100%",
-              margin: "20%   auto",
-            }}
-          />
+          <div>Select any cutomer to view his/her orders</div>
         )}
       </ScrollPanel>
       <ScrollPanel
-        style={{ width: "100%", height: "40vh" }}
+        style={{ height: "40vh", border: "solid 2px gray" }}
         className="custombar1 p-col-12"
       >
         {installments ? (
@@ -165,6 +192,7 @@ const PayInstallmentsPage = () => {
                 field="installments_payment_id"
                 header="Installment ID"
               ></Column>
+              <Column field="installment_no" header="Installment No"></Column>
               <Column
                 field="amount_to_receive"
                 header="Total Receiveable"
@@ -188,12 +216,7 @@ const PayInstallmentsPage = () => {
             </DataTable>
           </div>
         ) : (
-          <ProgressSpinner
-            style={{
-              width: "80%",
-              margin: "20%   auto",
-            }}
-          />
+          <div>Select any cutomer to view his/her orders</div>
         )}
       </ScrollPanel>
 
@@ -202,6 +225,7 @@ const PayInstallmentsPage = () => {
           selectedInstallment={selectedInstallment}
           displayBasic={displayBasic}
           onHide={onHide}
+          updateInstallment={updateInstallment}
         />
       ) : null}
     </div>
@@ -209,3 +233,12 @@ const PayInstallmentsPage = () => {
 };
 
 export default PayInstallmentsPage;
+
+{
+  /* <ProgressSpinner
+  style={{
+    width: "80%",
+    margin: "20%   auto",
+  }}
+/>; */
+}
