@@ -47,6 +47,11 @@ module.exports = function(sequelize, DataTypes) {
     note: {
       type: DataTypes.STRING(100),
       allowNull: true
+    },
+    pending_orders: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0
     }
   }, {
     sequelize,

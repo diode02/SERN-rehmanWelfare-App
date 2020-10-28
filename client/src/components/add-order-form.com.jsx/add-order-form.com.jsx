@@ -10,25 +10,28 @@ import { postOrderStart } from "../../redux/orders/orders.actions";
 import { selectCustomersIdWithName } from "../../redux/customers/customers.selector";
 import { selectProductIdName } from "../../redux/products/products.selector";
 import { selectPrices } from "../../redux/products/products.selector";
+import { useHistory } from "react-router-dom";
 
 const AddOrderForm = () => {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.orders.error);
-  const customers = useSelector(selectCustomersIdWithName);
+  const orders = useSelector((state) => state.orders.orders);
+  let customers = useSelector(selectCustomersIdWithName);
   const products_id_name = useSelector(selectProductIdName);
   const prices = useSelector(selectPrices);
-  const prevCustomer = usePrevious(customers);
+  const prevOrders = usePrevious(orders);
+  const history = useHistory();
   const [displayBasic, setdisplayBasic] = useState(false);
   let toast;
 
   useEffect(() => {
-    if (prevCustomer)
-      if (prevCustomer.length - customers.length === -1) {
+    if (prevOrders)
+      if (prevOrders.length - orders.length === -1) {
         setdisplayBasic(!displayBasic);
         toast.show({
           severity: "success",
-          summary: "Success Message",
-          detail: "Message Content",
+          summary: "New Order",
+          detail: "New Order Added",
           life: 3000,
         });
         setOrderData({
@@ -37,12 +40,15 @@ const AddOrderForm = () => {
           guarantor_one_id: "",
           total_installments: 0,
           amount_item: 0,
-          quantity: 0,
+          quantity: 1,
           discount: 0,
           total: 0,
+          note: "",
+          downpayment: 0,
         });
+        history.push("/orders");
       }
-  }, [customers, displayBasic, prevCustomer, toast]);
+  }, [orders, displayBasic, prevOrders, toast]);
   const username_id = useSelector(
     (state) => state.user.currentUser.username_id
   );
@@ -54,7 +60,7 @@ const AddOrderForm = () => {
     guarantor_three_id: "",
     total_installments: "",
     amount_item: 0,
-    quantity: 0,
+    quantity: 1,
     discount: 0,
     total: 0,
     downpayment: 0,
@@ -73,6 +79,8 @@ const AddOrderForm = () => {
     discount,
     total,
     date_of_entry,
+    note,
+    downpayment,
   } = orderData;
 
   const onChange = ({ target }) => {
@@ -90,54 +98,92 @@ const AddOrderForm = () => {
     } else setOrderData({ ...orderData, [name]: value });
   };
 
+  // let today = new Date();
+  // let month = today.getMonth();
+  // let year = today.getFullYear();
+  // let prevMonth = month === 0 ? 11 : month - 1;
+  // let prevYear = prevMonth === 11 ? year - 1 : year;
+
+  // const minDate = new Date();
+  // minDate.setDate(Date.now());
+  // minDate.setMonth(prevMonth);
+  // minDate.setFullYear(prevYear);
+
+  let today = new Date();
+  let month = today.getMonth();
+  let year = today.getFullYear();
+  let prevMonth = month === 0 ? 11 : month - 1;
+  let prevYear = prevMonth === 11 ? year - 1 : year;
+  let nextMonth = month === 11 ? 0 : month + 1;
+  let nextYear = nextMonth === 0 ? year + 1 : year;
+
+  const [date4, setDate4] = useState(null);
+
+  let minDate = new Date();
+  minDate.setMonth(month);
+  minDate.setFullYear(year);
+
+  let maxDate = new Date();
+  maxDate.setMonth(nextMonth);
+  maxDate.setFullYear(nextYear);
+
   const onChangeDrop = ({ target, value }) => {
     const { name } = target;
 
-    switch (name) {
-      case "guarantor_one_id":
-        if (
-          value === guarantor_two_id ||
-          value === guarantor_three_id ||
-          value === customer_id
-        ) {
-          alert("Customers and Gurrantors must be unique");
-          return;
-        }
-        break;
-      case "guarantor_two_id":
-        if (
-          value === guarantor_three_id ||
-          value === guarantor_one_id ||
-          value === customer_id
-        ) {
-          alert("Customers and Gurrantors must be unique");
-          return;
-        }
-        break;
-      case "guarantor_three_id":
-        if (
-          value === guarantor_two_id ||
-          value === guarantor_one_id ||
-          value === customer_id
-        ) {
-          alert("Customers and Gurrantors must be unique");
-          return;
-        }
-        break;
-      case "customer_id":
-        if (
-          value === guarantor_two_id ||
-          value === guarantor_one_id ||
-          value === guarantor_three_id
-        ) {
-          alert("Customers and Gurrantors must be unique");
-          return;
-        }
-        break;
-    }
+    // switch (name) {
+    //   case "guarantor_one_id":
+    //     if (
+    //       value === guarantor_two_id ||
+    //       value === guarantor_three_id ||
+    //       value === customer_id
+    //     ) {
+    //       alert("Customers and Gurrantors must be unique");
+    //       return;
+    //     }
+    //     break;
+    //   case "guarantor_two_id":
+    //     if (
+    //       value === guarantor_three_id ||
+    //       value === guarantor_one_id ||
+    //       value === customer_id
+    //     ) {
+    //       alert("Customers and Gurrantors must be unique");
+    //       return;
+    //     }
+    //     break;
+    //   case "guarantor_three_id":
+    //     if (
+    //       value === guarantor_two_id ||
+    //       value === guarantor_one_id ||
+    //       value === customer_id
+    //     ) {
+    //       alert("Customers and Gurrantors must be unique");
+    //       return;
+    //     }
+    //     break;
+    //   case "customer_id":
+    //     if (
+    //       value === guarantor_two_id ||
+    //       value === guarantor_one_id ||
+    //       value === guarantor_three_id
+    //     ) {
+    //       alert("Customers and Gurrantors must be unique");
+    //       return;
+    //     }
+    //     break;
+    // }
 
     setOrderData({ ...orderData, [name]: value });
     // } else setOrderData({ ...orderData, [name]: value });
+  };
+
+  const handleSelect = (id, e) => {
+    if (id != "") {
+      let index = customers.findIndex((customer) => id === customer.value);
+      customers[index]["disabled"] = false;
+    }
+    let index = customers.findIndex((customer) => e.value === customer.value);
+    customers[index]["disabled"] = true;
   };
 
   const handleSubmit = (event) => {
@@ -150,6 +196,14 @@ const AddOrderForm = () => {
       }
     }
     dispatch(postOrderStart(orderData));
+  };
+
+  const gurrantorTemplate = (option) => {
+    return <div>{option.label}</div>;
+  };
+  const selectedCountryTemplate = (option, props) => {
+    console.log(option);
+    console.log(props);
   };
   return (
     <div className="card">
@@ -165,6 +219,7 @@ const AddOrderForm = () => {
             options={customers}
             onChange={(e) => {
               onChangeDrop(e);
+              handleSelect(customer_id, e);
             }}
             placeholder="Select CNIC"
             filter
@@ -197,10 +252,13 @@ const AddOrderForm = () => {
           <label htmlFor="cnic">Gurantor One</label>
           <Dropdown
             value={guarantor_one_id}
+            itemTemplate={gurrantorTemplate}
+            // valueTemplate={selectedCountryTemplate}
             name="guarantor_one_id"
             options={customers}
             onChange={(e) => {
               onChangeDrop(e);
+              handleSelect(guarantor_one_id, e);
             }}
             placeholder="Select CNIC"
             filter
@@ -215,6 +273,7 @@ const AddOrderForm = () => {
             options={customers}
             onChange={(e) => {
               onChangeDrop(e);
+              handleSelect(guarantor_two_id, e);
             }}
             placeholder="Select CNIC"
             filter
@@ -229,6 +288,7 @@ const AddOrderForm = () => {
             options={customers}
             onChange={(e) => {
               onChangeDrop(e);
+              handleSelect(guarantor_three_id, e);
             }}
             placeholder="Select CNIC"
             filter
@@ -282,6 +342,17 @@ const AddOrderForm = () => {
             readOnly
           />
         </div>
+        <div className="p-field p-col-2">
+          <label htmlFor="downpayment">Advance</label>
+          <InputText
+            id="downpayment"
+            type="text"
+            value={downpayment}
+            onChange={onChange}
+            name="downpayment"
+            required
+          />
+        </div>
         <div className="p-field p-col-12"></div>
         <div className="p-field p-col-2">
           <label htmlFor="total_installments">Total Installments</label>
@@ -295,16 +366,35 @@ const AddOrderForm = () => {
           />
         </div>
         <div className="p-field p-col-12"></div>
+        <div className="p-field p-col-2">
+          <label htmlFor="note">Note</label>
+          <InputTextarea
+            id="note"
+            type="text"
+            value={note}
+            onChange={onChange}
+            name="note"
+            placeholder="add any note about this order"
+            rows="16"
+          />
+        </div>
+        <div className="p-fluid p-col-2"></div>
+
         <div className="p-field">
+          <label htmlFor="date_of_entry">Select Date</label>
+
           <Calendar
+            id="date_of_entry"
             name="date_of_entry"
             dateFormat="yyyy/mm/dd"
             value={date_of_entry}
             onChange={onChange}
+            minDate={minDate}
+            readOnlyInput
             inline
-            showWeek
           />
         </div>
+
         <div className="p-field p-col-12">
           <label>{error ? error.sqlMessage : ""}</label>
         </div>

@@ -36,7 +36,7 @@ const ordersReducer = (state = INITIAL_STATE, action) => {
     case OrdersActionTypes.POST_ORDER_SUCCESS:
       return {
         ...state,
-        orders: action.payload,
+        orders: getUpdatedOrder(state, action.payload),
         isPosting: false,
         error: undefined,
       };
@@ -53,7 +53,7 @@ const ordersReducer = (state = INITIAL_STATE, action) => {
 };
 
 let getUpdatedOrder = (a, b) => {
-  let c = a.customers.map((a) => {
+  let c = a.orders.map((a) => {
     return a;
   });
   c.push(b);

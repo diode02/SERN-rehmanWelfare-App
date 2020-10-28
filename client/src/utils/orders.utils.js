@@ -50,12 +50,22 @@ export async function postOdersAPI(order) {
   return data;
 }
 
-const getInGoodShapeInst = (order) => {
-  return {
-    ...order,
-    order_id: order.order_id.toString(),
-  };
-};
+export async function patchOrderApi(dataWhereUpdates) {
+  const data = await axios({
+    method: "patch",
+    url: "orders",
+    data: dataWhereUpdates,
+  }).then(
+    (response) => {
+      // let data = Object.values(response.data);
+      return response.data;
+    },
+    (error) => {
+      throw error;
+    }
+  );
+  return data;
+}
 
 const getInGoodShape = (order) => {
   return {
@@ -76,6 +86,9 @@ const getInGoodShape = (order) => {
         downpayment: order.downpayment,
         total_installments: order.total_installments,
         quantity: order.quantity,
+        note: order.note,
+        date_of_entry: order.date_of_entry,
+        amount_item: order.amount_item,
       },
     ],
   };

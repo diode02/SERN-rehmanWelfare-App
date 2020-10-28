@@ -69,6 +69,7 @@ router.delete("/:order_id", async (req, res, next) => {
 });
 
 router.patch("/", async (req, res, next) => {
+  console.log("hit");
   const alllowedUpdates = [
     "product_id",
     "customer_id",
@@ -78,18 +79,19 @@ router.patch("/", async (req, res, next) => {
     "total_installments",
     "amount_item",
     "quantity",
-    "disocunt",
+    "discount",
     "totoal",
     "downpayment",
     "date_of_entry",
     "username_id",
+    "note",
   ];
   const updates = Object.keys(req.body.updates);
-  console.log(updates);
   const isvalidOrNot = updates.every((update) =>
     alllowedUpdates.includes(update)
   );
 
+  console.log(isvalidOrNot);
   if (!isvalidOrNot)
     return res.status(400).send({ error: "Invalid Operation" });
 
@@ -101,6 +103,7 @@ router.patch("/", async (req, res, next) => {
     });
     res.send(response);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error + "");
   }
 });

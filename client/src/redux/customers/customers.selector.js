@@ -18,6 +18,7 @@ export const selectCustomersIdWithName = createSelector(
           " " +
           customer.last_name,
         value: customer.customer_id,
+        gar: customer.subData[0].current_guarantees,
       };
     })
 );

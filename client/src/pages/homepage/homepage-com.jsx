@@ -23,9 +23,9 @@ const HomePage = (props) => {
       },
     },
     {
-      label: "All Installments",
+      label: "Add Product",
       command: () => {
-        history.push("/all-installments");
+        history.push("/product");
       },
     },
     {

@@ -160,7 +160,6 @@ const PayInstallmentForm = ({
               name="note"
               type="text"
               value={note ? note : ""}
-              required
               rows="4"
               onChange={onChange}
             />

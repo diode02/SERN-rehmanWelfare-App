@@ -80,7 +80,7 @@ const NewCustomer = () => {
       />
       {/* <div onClick={() => onClick()}>Add Customer</div> */}
       <Dialog
-        header="Header"
+        header="Add Customer"
         visible={displayBasic}
         style={{ width: "50vw" }}
         onHide={onHide}

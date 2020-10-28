@@ -43,6 +43,7 @@ const CustomersPage = () => {
           expandedRows={expandedRows}
           rowExpansionTemplate={rowExpansionTemplate}
           dataKey="customer_id"
+          className="p-datatable-striped"
         >
           <Column expander style={{ width: "3em" }} />
           <Column

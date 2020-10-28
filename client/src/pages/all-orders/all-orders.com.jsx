@@ -1,34 +1,35 @@
-import { Box } from "@chakra-ui/core";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import EditOrderForm from "../../components/edit-order-form/edit-order-form.com";
 
 const AllOrders = () => {
   const ordersModi = useSelector((state) => state.orders.orders);
-  // let ordersModi = orders.map((order) => {
-  //   return {
-  //     order_id: order.order_id,
-  //     product_id: order.product_id,
-  //     customer_id: order.customer_id,
-  //     total: order.total,
-  //     order_status: order.order_status,
-  //     username_id: order.username_id,
-  //     createdAt: order.createdAt,
-  //     subData: [
-  //       {
-  //         order_id: order.order_id,
-  //         guarantor_one_id: order.guarantor_one_id,
-  //         guarantor_two_id: order.guarantor_two_id,
-  //         guarantor_three_id: order.guarantor_three_id,
-  //         discount: order.discount,
-  //         downpayment: order.downpayment,
-  //         total_installments: order.total_installments,
-  //         quantity: order.quantity,
-  //       },
-  //     ],
-  //   };
-  // });
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [displayBasic, setDisplayBasic] = useState(false);
+
+  const onHide = (name) => {
+    setDisplayBasic(false);
+  };
+  const onClick = (name, position) => {
+    setDisplayBasic(true);
+  };
+
+  const updateOrders = (install) => {
+    // setOrders(
+    //   installments.map((installment) => {
+    //     if (
+    //       installment.installments_payment_id ===
+    //       install.installments_payment_id
+    //     ) {
+    //       return install;
+    //     }
+    //     return installment;
+    //   })
+    // );
+  };
+
   const formateStatus = (rowData) => {
     return rowData.order_status ? "Paid" : "Un Paid";
   };
@@ -45,18 +46,26 @@ const AllOrders = () => {
           <Column field="quantity" header="Quantity"></Column>
           <Column field="discount" header="Discount"></Column>
           <Column field="downpayment" header="Advance"></Column>
+          <Column field="note" header="Note"></Column>
         </DataTable>
       </div>
     );
   };
   return (
-    <Box>
+    <div>
       <DataTable
         value={ordersModi}
         onRowToggle={(e) => setexpandedRows(e.data)}
         expandedRows={expandedRows}
         rowExpansionTemplate={rowExpansionTemplate}
         dataKey="order_id"
+        className="p-datatable-striped"
+        selection={selectedOrder}
+        onSelectionChange={(e) => {
+          setSelectedOrder(e.value);
+          onClick("displayBasic");
+        }}
+        selectionMode="single"
       >
         <Column expander style={{ width: "3em" }} />
         <Column field="order_id" header="Order ID" filter sortable></Column>
@@ -78,7 +87,15 @@ const AllOrders = () => {
         ></Column>
         <Column field="username_id" header="Bill By" filter sortable></Column>
       </DataTable>
-    </Box>
+      {selectedOrder ? (
+        <EditOrderForm
+          selectedOrder={selectedOrder}
+          displayBasic={displayBasic}
+          onHide={onHide}
+          updateOrders={updateOrders}
+        />
+      ) : null}
+    </div>
   );
 };
 
