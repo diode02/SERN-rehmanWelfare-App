@@ -1,20 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import EditOrderForm from "../../components/edit-order-form/edit-order-form.com";
+import { fetchOrdersStart } from "../../redux/orders/orders.actions";
 
 const AllOrders = () => {
   const ordersModi = useSelector((state) => state.orders.orders);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [displayBasic, setDisplayBasic] = useState(false);
-
+  const dispatch = useDispatch();
   const onHide = (name) => {
     setDisplayBasic(false);
+    dispatch(fetchOrdersStart());
   };
   const onClick = (name, position) => {
     setDisplayBasic(true);
   };
+
+  // useEffect(() => {
+  //   if (displayBasic == true) ;
+  // }, [displayBasic]);
 
   const updateOrders = (install) => {
     // setOrders(

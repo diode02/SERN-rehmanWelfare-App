@@ -201,10 +201,6 @@ const AddOrderForm = () => {
   const gurrantorTemplate = (option) => {
     return <div>{option.label}</div>;
   };
-  const selectedCountryTemplate = (option, props) => {
-    console.log(option);
-    console.log(props);
-  };
   return (
     <div className="card">
       <Toast ref={(el) => (toast = el)} />

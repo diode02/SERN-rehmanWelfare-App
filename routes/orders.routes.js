@@ -80,7 +80,7 @@ router.patch("/", async (req, res, next) => {
     "amount_item",
     "quantity",
     "discount",
-    "totoal",
+    "total",
     "downpayment",
     "date_of_entry",
     "username_id",

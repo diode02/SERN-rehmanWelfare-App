@@ -10,7 +10,6 @@ const OrdersSpinnerPage = ({ match, history }) => {
 
   useEffect(() => {
     dispatch(fetchOrdersStart());
-    // }
   }, [dispatch]);
   return (
     <div>
