@@ -29,3 +29,20 @@ export async function postProductApi(order) {
   );
   return data;
 }
+
+export async function patchProductApi(dataWhereUpdates) {
+  const data = await axios({
+    method: "patch",
+    url: "products",
+    data: dataWhereUpdates,
+  }).then(
+    (response) => {
+      // let data = Object.values(response.data);
+      return response.data;
+    },
+    (error) => {
+      throw error;
+    }
+  );
+  return data;
+}

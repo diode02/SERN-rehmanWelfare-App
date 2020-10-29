@@ -152,7 +152,6 @@ const EditOrderForm = ({
     })
       .then((res) => {
         console.log(res);
-        onHide();
         updateOrder(order);
         toast.show({
           severity: "success",
@@ -160,6 +159,7 @@ const EditOrderForm = ({
           detail: "Message Content",
           life: 3000,
         });
+        onHide();
       })
       .catch((err) => console.log(err));
     // dispatch(postCustomerStart(customerData));

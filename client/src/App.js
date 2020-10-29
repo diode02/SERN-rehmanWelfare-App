@@ -20,6 +20,7 @@ import PayInstallmentRedirectPage from "./pages/pay-installments/pay-installment
 import { useSelector } from "react-redux";
 import AddProductForm from "./components/add-product-form/add-product.com";
 import AddProductPage from "./pages/product/product.com";
+import ProductsPage from "./pages/products/products.com";
 
 function App() {
   let history = useHistory();
@@ -34,6 +35,7 @@ function App() {
     { label: "All Customers", icon: "pi pi-user" },
     { label: "All Installments", icon: "pi pi-user" },
     { label: "Add Product", icon: "pi pi-user" },
+    { label: "All Products", icon: "pi pi-user" },
   ]);
   const [activeItem, setActiveItem] = useState(null);
   return (
@@ -65,6 +67,9 @@ function App() {
               break;
             case "Add Product":
               history.push("/product");
+              break;
+            case "All Products":
+              history.push("/products");
               break;
           }
         }}
@@ -103,6 +108,11 @@ function App() {
           exact
           path="/product"
           component={user ? AddProductPage : SignInSignUp}
+        />
+        <Route
+          exact
+          path="/products"
+          component={user ? ProductsPage : SignInSignUp}
         />
       </Switch>
     </div>

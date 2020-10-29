@@ -27,11 +27,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(245),
       allowNull: false
     },
-    current_guarantees: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0
-    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: true
@@ -52,6 +47,15 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true,
       defaultValue: 0
+    },
+    current_guarantees: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0
+    },
+    softDelete: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,

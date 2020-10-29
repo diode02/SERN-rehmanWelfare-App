@@ -71,14 +71,16 @@ router.delete("/:product_id", async (req, res, next) => {
 });
 
 router.patch("/", async (req, res, next) => {
-  const alllowedUpdates = ["product_name", "category_id", "price"];
+  const alllowedUpdates = ["product_name", "category_id", "note", "price"];
   const updates = Object.keys(req.body.updates);
   const isvalidOrNot = updates.every((update) =>
     alllowedUpdates.includes(update)
   );
 
   if (!isvalidOrNot)
-    return res.status(400).send({ error: "Invalid Operation" });
+    return res
+      .status(400)
+      .send({ error: { sqlMessage: "Invalid Operation", errno: 4000 } });
 
   try {
     const response = await db.products.update(req.body.updates, {
@@ -88,7 +90,7 @@ router.patch("/", async (req, res, next) => {
     });
     res.send(response);
   } catch (error) {
-    res.status(500).send(error + "");
+    res.status(500).send({ error: error.original });
   }
 });
 
