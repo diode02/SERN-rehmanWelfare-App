@@ -36,6 +36,10 @@ module.exports = function(sequelize, DataTypes) {
     note: {
       type: DataTypes.STRING(100),
       allowNull: true
+    },
+    soft_delete: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     }
   }, {
     sequelize,

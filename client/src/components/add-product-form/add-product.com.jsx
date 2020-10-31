@@ -52,7 +52,6 @@ const AddProductForm = () => {
     <div className="card">
       <Toast ref={(el) => (toast = el)} />
 
-      {/* <div onClick={() => onClick()}>Add Customer</div> */}
       <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
         <div className="p-field p-col-12 p-md-6">
           <label htmlFor="product_name">Product Name</label>
@@ -60,6 +59,7 @@ const AddProductForm = () => {
             id="product_name"
             name="product_name"
             type="text"
+            maxLength="50"
             value={product_name}
             onChange={onChange}
             required
@@ -83,6 +83,8 @@ const AddProductForm = () => {
             type="number"
             name="price"
             value={price}
+            min="0"
+            max="999999999"
             onChange={onChange}
             required
           />
@@ -94,6 +96,7 @@ const AddProductForm = () => {
             type="text"
             rows="4"
             value={note}
+            maxLength="97"
             onChange={onChange}
             name="note"
             placeholder="any note about product"
@@ -102,12 +105,19 @@ const AddProductForm = () => {
         <div className="p-field p-col-12">
           <label>{error ? error.code : ""}</label>
         </div>
-        <Button
-          label="Add"
-          className="p-col-2 p-justify-end"
-          type="submit"
-          icon="pi pi-check"
-        />
+        <div
+          className="p-p-4"
+          style={{
+            marginInlineStart: "auto",
+          }}
+        >
+          <Button
+            type="submit"
+            label="Add Product"
+            className="p-d-block p-mx-auto"
+            icon="pi pi-plus"
+          />
+        </div>
       </form>
     </div>
   );

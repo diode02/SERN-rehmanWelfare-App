@@ -16,10 +16,7 @@ import {
 const Header = () => {
   let history = useHistory();
   const dispatch = useDispatch();
-
   const currentUser = useSelector((state) => state.user.currentUser);
-  // let imgData = "data:image/png;base64,";
-  // imgData += useSelector((state) => state.user.avatar);
   let items = [
     {
       label: "Account",

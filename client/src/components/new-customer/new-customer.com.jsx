@@ -90,6 +90,7 @@ const NewCustomer = () => {
             <label htmlFor="cnic">Customer CNIC Number</label>
             <InputText
               id="cnic"
+              mask="999999999999999"
               name="customer_id"
               type="text"
               value={customer_id}
@@ -103,6 +104,7 @@ const NewCustomer = () => {
               id="firstname"
               name="first_name"
               type="text"
+              maxLength="45"
               value={first_name}
               onChange={onChange}
               required
@@ -112,6 +114,7 @@ const NewCustomer = () => {
             <label htmlFor="lastname">Last Name</label>
             <InputText
               id="lastname"
+              maxLength="45"
               type="text"
               name="last_name"
               value={last_name}
@@ -123,7 +126,9 @@ const NewCustomer = () => {
             <label htmlFor="mobile">Mobile Number</label>
             <InputText
               id="mobile"
-              type="text"
+              type="number"
+              max="99999999999999"
+              min="99"
               name="mobile_number"
               value={mobile_number}
               onChange={onChange}
@@ -134,7 +139,9 @@ const NewCustomer = () => {
             <label htmlFor="other_mobile">Other Number</label>
             <InputText
               id="other_mobile"
-              type="text"
+              type="number"
+              max="99999999999999"
+              min="99"
               name="home_other_number"
               value={home_other_mobile}
               onChange={onChange}
@@ -146,6 +153,7 @@ const NewCustomer = () => {
               id="address"
               name="address"
               type="text"
+              maxLength="230"
               rows="4"
               value={address}
               onChange={onChange}
@@ -158,6 +166,7 @@ const NewCustomer = () => {
               id="city"
               type="text"
               value={city}
+              maxLength="42"
               onChange={onChange}
               name="city"
               required
@@ -167,6 +176,7 @@ const NewCustomer = () => {
             <label htmlFor="note">Any note about customer</label>
             <InputTextarea
               id="note"
+              maxLength="97"
               type="text"
               rows="4"
               value={note}
@@ -175,14 +185,21 @@ const NewCustomer = () => {
             />
           </div>
           <div className="p-field p-col-12">
-            <label>{error ? error.code : ""}</label>
+            <label>{error ? "something went wrong" : ""}</label>
           </div>
-          <Button
-            label="Add"
-            className="p-col-2 p-justify-end"
-            type="submit"
-            icon="pi pi-check"
-          />
+          <div
+            className="p-p-4"
+            style={{
+              marginInlineStart: "auto",
+            }}
+          >
+            <Button
+              type="submit"
+              label="Add Customer"
+              className="p-d-block p-mx-auto"
+              icon="pi pi-user-plus"
+            />
+          </div>
         </form>
       </Dialog>
     </div>

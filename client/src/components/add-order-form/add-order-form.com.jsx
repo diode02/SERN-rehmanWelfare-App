@@ -85,17 +85,33 @@ const AddOrderForm = () => {
 
   const onChange = ({ target }) => {
     const { name, value } = target;
+    console.log("discount");
+
+    //for discount check
     if (name === "discount") {
-      if (value > amount_item) {
-        alert("discount can not be grater then amount item");
+      if (parseInt(value) > amount_item) {
+        alert("Discount can not be grater then amount item");
         return;
       }
+    }
+
+    // //for downpayment check
+    if (name === "downpayment") {
+      if (parseInt(value) > total) {
+        alert("Advance can not be grater then total");
+        return;
+      }
+    }
+
+    if (name === "discount") {
       setOrderData({
         ...orderData,
         total: amount_item - value,
         [name]: value,
       });
-    } else setOrderData({ ...orderData, [name]: value });
+      return;
+    }
+    setOrderData({ ...orderData, [name]: value });
   };
 
   // let today = new Date();
@@ -129,52 +145,7 @@ const AddOrderForm = () => {
 
   const onChangeDrop = ({ target, value }) => {
     const { name } = target;
-
-    // switch (name) {
-    //   case "guarantor_one_id":
-    //     if (
-    //       value === guarantor_two_id ||
-    //       value === guarantor_three_id ||
-    //       value === customer_id
-    //     ) {
-    //       alert("Customers and Gurrantors must be unique");
-    //       return;
-    //     }
-    //     break;
-    //   case "guarantor_two_id":
-    //     if (
-    //       value === guarantor_three_id ||
-    //       value === guarantor_one_id ||
-    //       value === customer_id
-    //     ) {
-    //       alert("Customers and Gurrantors must be unique");
-    //       return;
-    //     }
-    //     break;
-    //   case "guarantor_three_id":
-    //     if (
-    //       value === guarantor_two_id ||
-    //       value === guarantor_one_id ||
-    //       value === customer_id
-    //     ) {
-    //       alert("Customers and Gurrantors must be unique");
-    //       return;
-    //     }
-    //     break;
-    //   case "customer_id":
-    //     if (
-    //       value === guarantor_two_id ||
-    //       value === guarantor_one_id ||
-    //       value === guarantor_three_id
-    //     ) {
-    //       alert("Customers and Gurrantors must be unique");
-    //       return;
-    //     }
-    //     break;
-    // }
-
     setOrderData({ ...orderData, [name]: value });
-    // } else setOrderData({ ...orderData, [name]: value });
   };
 
   const handleSelect = (id, e) => {
@@ -324,6 +295,9 @@ const AddOrderForm = () => {
             value={discount}
             onChange={onChange}
             required
+            readOnly={
+              amount_item === 0 || parseInt(downpayment) !== 0 ? true : false
+            }
           />
         </div>
         <div className="p-field p-col-2">
@@ -342,7 +316,7 @@ const AddOrderForm = () => {
           <label htmlFor="downpayment">Advance</label>
           <InputText
             id="downpayment"
-            type="text"
+            type="number"
             value={downpayment}
             onChange={onChange}
             name="downpayment"
@@ -355,6 +329,7 @@ const AddOrderForm = () => {
           <InputText
             id="total_installments"
             type="number"
+            max="499"
             value={total_installments}
             onChange={onChange}
             name="total_installments"
@@ -370,12 +345,12 @@ const AddOrderForm = () => {
             value={note}
             onChange={onChange}
             name="note"
+            maxLength="97"
             placeholder="add any note about this order"
             rows="16"
           />
         </div>
         <div className="p-fluid p-col-2"></div>
-
         <div className="p-field">
           <label htmlFor="date_of_entry">Select Date</label>
 
@@ -390,16 +365,22 @@ const AddOrderForm = () => {
             inline
           />
         </div>
-
         <div className="p-field p-col-12">
-          <label>{error ? error.sqlMessage : ""}</label>
+          <label>{error ? "something went wrong" : ""}</label>
         </div>
-        <Button
-          label="Add"
-          className="p-col-2 p-justify-end"
-          type="submit"
-          icon="pi pi-check"
-        />
+        <div
+          className="p-p-4"
+          style={{
+            marginInlineStart: "auto",
+          }}
+        >
+          <Button
+            type="submit"
+            label="Add Order"
+            className="p-d-block p-mx-auto"
+            icon="pi pi-plus"
+          />
+        </div>
       </form>
     </div>
   );

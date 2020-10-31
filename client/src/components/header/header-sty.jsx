@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export const HeaderContainer = styled.div`
   height: 70px;
   width: 100%;
+  padding: 0 2%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 0px;

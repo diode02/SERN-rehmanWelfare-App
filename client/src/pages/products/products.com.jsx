@@ -6,12 +6,14 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { fetchProductsStart } from "../../redux/products/products.actions";
 import { ProgressSpinner } from "primereact/progressspinner";
 import EditProductForm from "../../components/edit-product-form/edit-product-form.com";
+import { Dialog } from "primereact/dialog";
 
 // import "./sty.css";
-// import NewCustomer from "../../components/new-customer/new-customer.com";
+import NewProduct from "../../components/new-product/add-product.com";
 
 const ProductsPage = () => {
   const dispatch = useDispatch();
+  const isfetching = useSelector((state) => state.products.isFetching);
   const products = useSelector((state) => state.products.products);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [displayBasic, setDisplayBasic] = useState(false);
@@ -30,8 +32,8 @@ const ProductsPage = () => {
 
   return (
     <div>
-      {/* <NewCustomer /> */}
-      {products.length > 0 ? (
+      <NewProduct />
+      {products ? (
         <ScrollPanel
           style={{
             width: "100%",

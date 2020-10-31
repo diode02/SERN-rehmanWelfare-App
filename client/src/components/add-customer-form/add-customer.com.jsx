@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import { InputMask } from "primereact/inputmask";
 import { InputTextarea } from "primereact/inputtextarea";
 import { postCustomerStart } from "../../redux/customers/customers.actions";
 const AddCustomerForm = () => {
@@ -74,13 +75,15 @@ const AddCustomerForm = () => {
       <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
         <div className="p-field p-col-12">
           <label htmlFor="cnic">Customer CNIC Number</label>
-          <InputText
+          <InputMask
             id="cnic"
+            mask="999999999999999"
             name="customer_id"
             type="text"
             value={customer_id}
             onChange={onChange}
             required
+            // autoClear={false}
           />
         </div>
         <div className="p-field p-col-12 p-md-6">
@@ -89,6 +92,7 @@ const AddCustomerForm = () => {
             id="firstname"
             name="first_name"
             type="text"
+            maxLength="45"
             value={first_name}
             onChange={onChange}
             required
@@ -100,6 +104,7 @@ const AddCustomerForm = () => {
             id="lastname"
             type="text"
             name="last_name"
+            maxLength="45"
             value={last_name}
             onChange={onChange}
             required
@@ -109,7 +114,9 @@ const AddCustomerForm = () => {
           <label htmlFor="mobile">Mobile Number</label>
           <InputText
             id="mobile"
-            type="text"
+            type="number"
+            max="99999999999999"
+            min="99"
             name="mobile_number"
             value={mobile_number}
             onChange={onChange}
@@ -120,7 +127,9 @@ const AddCustomerForm = () => {
           <label htmlFor="other_mobile">Other Number</label>
           <InputText
             id="other_mobile"
-            type="text"
+            type="number"
+            max="99999999999999"
+            min="99"
             name="home_other_number"
             value={home_other_mobile}
             onChange={onChange}
@@ -133,6 +142,7 @@ const AddCustomerForm = () => {
             name="address"
             type="text"
             rows="4"
+            maxLength="230"
             value={address}
             onChange={onChange}
             required
@@ -144,6 +154,7 @@ const AddCustomerForm = () => {
             id="city"
             type="text"
             value={city}
+            maxLength="42"
             onChange={onChange}
             name="city"
             required
@@ -155,20 +166,28 @@ const AddCustomerForm = () => {
             id="note"
             type="text"
             rows="4"
+            maxLength="97"
             value={note}
             onChange={onChange}
             name="note"
           />
         </div>
         <div className="p-field p-col-12">
-          <label>{error ? error.code : ""}</label>
+          <label>{error ? "something went wrong" : ""}</label>
         </div>
-        <Button
-          label="Add"
-          className="p-col-2 p-justify-end"
-          type="submit"
-          icon="pi pi-check"
-        />
+        <div
+          className="p-p-4"
+          style={{
+            marginInlineStart: "auto",
+          }}
+        >
+          <Button
+            type="submit"
+            label="Add Customer"
+            className="p-d-block p-mx-auto"
+            icon="pi pi-user-plus"
+          />
+        </div>
       </form>
     </div>
   );

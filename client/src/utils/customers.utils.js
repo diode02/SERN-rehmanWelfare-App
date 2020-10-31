@@ -49,6 +49,40 @@ export async function patchCustomerApi(dataWhereUpdates) {
   );
   return data;
 }
+
+export async function deleteCustomerApi(id) {
+  const data = await axios({
+    method: "delete",
+    url: "customers/" + id,
+  }).then(
+    (response) => {
+      // let data = Object.values(response.data);
+      return response.data;
+    },
+    (error) => {
+      throw error.response.data.error;
+    }
+  );
+  return data;
+}
+
+export async function getOrdersWhereUser(dataWhere) {
+  const data = await axios({
+    method: "post",
+    url: "orders/ordersOr",
+    data: dataWhere,
+  }).then(
+    (response) => {
+      let data = Object.values(response.data);
+      return data;
+    },
+    (error) => {
+      throw error;
+    }
+  );
+  return data;
+}
+
 const getInGoodShape = (customer) => {
   return {
     customer_id: customer.customer_id,
@@ -65,6 +99,7 @@ const getInGoodShape = (customer) => {
         home_other_number: customer.home_other_number,
         createdAt: customer.createdAt,
         note: customer.note,
+        pending_orders: customer.pending_orders,
       },
     ],
   };

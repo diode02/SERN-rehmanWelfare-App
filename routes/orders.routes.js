@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const db = require("../src/models");
+const { Op } = require("sequelize");
 
 // const User = require("../src/models/user");
 /* GET users listing. */
@@ -24,16 +25,16 @@ router.post("/get", async (req, res, next) => {
   }
 });
 
-router.get("/getUserOrders", async (req, res, next) => {
+router.post("/ordersOr", async (req, res, next) => {
   try {
     const response = await db.orders.findAll({
       where: {
-        ...req.params.where,
+        [Op.or]: req.body,
       },
     });
     res.status(200).send(response);
   } catch (error) {
-    res.status(401).send({ error });
+    res.status(401).send({ error: error });
   }
 });
 
@@ -69,7 +70,6 @@ router.delete("/:order_id", async (req, res, next) => {
 });
 
 router.patch("/", async (req, res, next) => {
-  console.log("hit");
   const alllowedUpdates = [
     "product_id",
     "customer_id",
@@ -91,7 +91,6 @@ router.patch("/", async (req, res, next) => {
     alllowedUpdates.includes(update)
   );
 
-  console.log(isvalidOrNot);
   if (!isvalidOrNot)
     return res.status(400).send({ error: "Invalid Operation" });
 
@@ -103,7 +102,6 @@ router.patch("/", async (req, res, next) => {
     });
     res.send(response);
   } catch (error) {
-    console.log(error);
     res.status(500).send(error + "");
   }
 });

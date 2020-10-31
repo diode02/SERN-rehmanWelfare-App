@@ -1,5 +1,5 @@
 import React from "react";
-import AddCustomerForm from "../../components/add-customer-form.com.jsx/add-customer.com";
+import AddCustomerForm from "../../components/add-customer-form/add-customer.com";
 
 const NewCustomerPage = () => {
   return (

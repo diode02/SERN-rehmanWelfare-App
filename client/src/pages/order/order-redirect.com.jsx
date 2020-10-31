@@ -12,7 +12,6 @@ const OrderRedirectPage = ({ match }) => {
   useEffect(() => {
     dispatch(
       fetchProductsStart({
-        where: {},
         attributes: ["product_name", "price", "product_id"],
       })
     );

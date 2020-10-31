@@ -15,7 +15,7 @@ import { Dropdown } from "primereact/dropdown";
 import { fetchCustomersStart } from "../../redux/customers/customers.actions";
 import { fetchProductsStart } from "../../redux/products/products.actions";
 
-import { patchOrderApi } from "../../utils/orders.utils";
+import { deleteOrderApi, patchOrderApi } from "../../utils/orders.utils";
 import { useSelector } from "react-redux";
 const EditOrderForm = ({
   selectedOrder,
@@ -26,7 +26,8 @@ const EditOrderForm = ({
   let customers = useSelector(selectCustomersIdWithName);
   const products_id_name = useSelector(selectProductIdName);
   const prices = useSelector(selectPrices);
-
+  const [displayBasicDelete, setDisplayBasicDelete] = useState(false);
+  const [error, setError] = useState(null);
   const [order, setOrder] = useState({
     ...selectedOrder,
   });
@@ -66,7 +67,6 @@ const EditOrderForm = ({
       (customer) => customer_id === customer.value
     );
     if (index != -1) customers[index]["disabled"] = true;
-    console.log(guarantor_one_id);
     index = customers.findIndex(
       (customer) => guarantor_one_id === customer.value
     );
@@ -103,21 +103,31 @@ const EditOrderForm = ({
 
   const onChangeSub = ({ target }) => {
     const { name, value } = target;
+    //for discount check
     if (name === "discount") {
-      if (parseInt(value) > parseInt(amount_item)) {
-        alert("discount can not be grater then amount item");
+      if (parseInt(value) > amount_item) {
+        alert("Discount can not be grater then amount item");
         return;
       }
+    }
+
+    // //for downpayment check
+    if (name === "downpayment") {
+      if (parseInt(value) > total) {
+        alert("Advance can not be grater then total");
+        return;
+      }
+    }
+    if (name === "discount") {
       let a = order;
       a.subData[0][name] = value;
       a["total"] = parseInt(amount_item) - parseInt(value);
       setOrder({ ...a });
-    } else;
-    {
-      let a = order;
-      a.subData[0][name] = value;
-      setOrder({ ...a });
+      return;
     }
+    let a = order;
+    a.subData[0][name] = value;
+    setOrder({ ...a });
   };
 
   const handleSelect = (id, e) => {
@@ -161,9 +171,71 @@ const EditOrderForm = ({
         });
         onHide();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setError("something went wrong");
+        // console.log(err);
+      });
     // dispatch(postCustomerStart(customerData));
   };
+
+  // const handleDeleteButton = () => {
+  //   deleteOrderApi(order_id)
+  //     .then((res) => {
+  //       toast.show({
+  //         severity: "Success",
+  //         summary: "Success Message",
+  //         detail: "Message Content",
+  //         life: 3000,
+  //       });
+  //       onHide();
+  //     })
+  //     .catch((err) => {
+  //       // console.log({ err });
+  //       // setError(err.sqlMessage);
+  //     });
+  // };
+
+  const handleDelete = () => {
+    deleteOrderApi(order_id)
+      .then((res) => {
+        toast.show({
+          severity: "Success",
+          summary: "Success Message",
+          detail: "Message Content",
+          life: 3000,
+        });
+        onHide();
+      })
+      .catch((err) => {
+        setError("something went wrong");
+      });
+  };
+
+  const onHideDel = () => {
+    setDisplayBasicDelete(false);
+  };
+  const onClickDel = () => {
+    setDisplayBasicDelete(true);
+  };
+
+  const footer = (
+    <div>
+      <Button
+        label="Yes"
+        icon="pi pi-check"
+        onClick={() => {
+          handleDelete();
+        }}
+      />
+      <Button
+        label="No"
+        icon="pi pi-times"
+        onClick={() => {
+          onHideDel();
+        }}
+      />
+    </div>
+  );
 
   let today = new Date();
   let month = today.getMonth();
@@ -185,11 +257,20 @@ const EditOrderForm = ({
     <div>
       <Toast ref={(el) => (toast = el)} />
       <Dialog
-        header="Pay order"
+        header="Edit Order"
         visible={displayBasic}
         style={{ width: "70vw" }}
         onHide={() => onHide("displayBasic")}
       >
+        <Button
+          label="Delete"
+          className="p-button-raised p-button-danger"
+          onClick={onClickDel}
+          style={{
+            display: "flex",
+            marginInlineStart: "auto",
+          }}
+        />
         <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
           <div className="p-field p-col-6">
             <label htmlFor="cnic">Customer CNIC Number</label>
@@ -204,6 +285,7 @@ const EditOrderForm = ({
               placeholder="Select CNIC"
               filter
               showClear
+              disabled
             />
           </div>
           <div className="p-field p-col-12 p-md-6">
@@ -226,6 +308,7 @@ const EditOrderForm = ({
               placeholder="Select Product"
               filter
               showClear
+              disabled
             />
           </div>
           <div className="p-field p-col-4">
@@ -239,6 +322,7 @@ const EditOrderForm = ({
                 onChangeDropSub(e);
                 handleSelect(guarantor_one_id, e);
               }}
+              disabled
               placeholder="Select CNIC"
               filter
               showClear
@@ -254,6 +338,7 @@ const EditOrderForm = ({
                 onChangeDropSub(e);
                 handleSelect(guarantor_two_id, e);
               }}
+              disabled
               placeholder="Select CNIC"
               filter
               showClear
@@ -269,6 +354,7 @@ const EditOrderForm = ({
                 onChangeDropSub(e);
                 handleSelect(guarantor_three_id, e);
               }}
+              disabled
               placeholder="Select CNIC"
               filter
               showClear
@@ -307,6 +393,9 @@ const EditOrderForm = ({
               value={discount}
               onChange={onChangeSub}
               required
+              readOnly={
+                amount_item === 0 || parseInt(downpayment) !== 0 ? true : false
+              }
             />
           </div>
           <div className="p-field p-col-2">
@@ -325,7 +414,7 @@ const EditOrderForm = ({
             <label htmlFor="downpayment">Advance</label>
             <InputText
               id="downpayment"
-              type="text"
+              type="number"
               value={downpayment}
               onChange={onChangeSub}
               name="downpayment"
@@ -342,6 +431,7 @@ const EditOrderForm = ({
               onChange={onChangeSub}
               name="total_installments"
               required
+              max="499"
             />
           </div>
           <div className="p-field p-col-12"></div>
@@ -353,6 +443,7 @@ const EditOrderForm = ({
               value={note ? note : ""}
               onChange={onChangeSub}
               name="note"
+              maxLength="97"
               placeholder="add any note about this order"
               rows="16"
             />
@@ -375,15 +466,31 @@ const EditOrderForm = ({
           </div>
 
           <div className="p-field p-col-12">
-            {/* <label>{error ? error.sqlMessage : ""}</label> */}
+            <label>{error ? "something went wrong" : ""}</label>
           </div>
-          <Button
-            label="Add"
-            className="p-col-2 p-justify-end"
-            type="submit"
-            icon="pi pi-check"
-          />
+          <div
+            className="p-p-4"
+            style={{
+              marginInlineStart: "auto",
+            }}
+          >
+            <Button
+              type="submit"
+              label="Add Customer"
+              className="p-d-block p-mx-auto"
+              icon="pi pi-user-plus"
+            />
+          </div>
         </form>
+      </Dialog>
+      <Dialog
+        header="Warning"
+        visible={displayBasicDelete}
+        style={{ width: "50vw" }}
+        onHide={() => onHideDel("displayBasicDelete")}
+        footer={footer}
+      >
+        <p>You are about to delete a order</p>
       </Dialog>
     </div>
   );

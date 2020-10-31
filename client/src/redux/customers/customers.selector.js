@@ -18,7 +18,11 @@ export const selectCustomersIdWithName = createSelector(
           " " +
           customer.last_name,
         value: customer.customer_id,
-        gar: customer.subData[0].current_guarantees,
+        disabled:
+          customer.subData[0].current_guarantees > 2 ||
+          customer.subData[0].pending_orders > 0
+            ? true
+            : false,
       };
     })
 );

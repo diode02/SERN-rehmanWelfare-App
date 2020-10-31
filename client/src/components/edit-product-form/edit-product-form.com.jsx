@@ -9,8 +9,10 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Toast } from "primereact/toast";
 
 import { patchOrderApi } from "../../utils/orders.utils";
-import { patchProductApi } from "../../utils/products.utils";
+import { deleteProductApi, patchProductApi } from "../../utils/products.utils";
+import { getOrdersWhereUser } from "../../utils/customers.utils";
 const EditProductForm = ({ selectedProduct, displayBasic, onHide }) => {
+  const [displayBasicDelete, setDisplayBasicDelete] = useState(false);
   const [order, setProduct] = useState({
     ...selectedProduct,
   });
@@ -50,18 +52,100 @@ const EditProductForm = ({ selectedProduct, displayBasic, onHide }) => {
         });
         onHide();
       })
-      .catch((err) => setError(err));
+      .catch((err) => setError("something went wrong"));
   };
+
+  const handleDelete = () => {
+    getOrdersWhereUser([{ product_id: product_id }]).then((res) => {
+      if (res.length > 0) {
+        onClickDel();
+      } else {
+        deleteProductApi(product_id)
+          .then((res) => {
+            toast.show({
+              severity: "Success",
+              summary: "Success Message",
+              detail: "Message Content",
+              life: 3000,
+            });
+            onHide();
+          })
+          .catch((err) => {
+            // console.log({ err });
+            setError(err.sqlMessage);
+          });
+      }
+    });
+  };
+
+  const handleSoftDelete = () => {
+    patchProductApi({
+      where: { product_id },
+      updates: {
+        soft_delete: 1,
+      },
+    })
+      .then((res) => {
+        toast.show({
+          severity: "Success",
+          summary: "Success Message",
+          detail: "Message Content",
+          life: 3000,
+        });
+        onHideDel();
+        onHide();
+      })
+      .catch((err) => {
+        // console.log({ err });
+        setError(err.sqlMessage);
+      });
+  };
+
+  const onHideDel = () => {
+    setDisplayBasicDelete(false);
+  };
+  const onClickDel = () => {
+    setDisplayBasicDelete(true);
+  };
+
+  const footer = (
+    <div>
+      <Button
+        label="Yes"
+        icon="pi pi-check"
+        onClick={() => {
+          handleSoftDelete();
+        }}
+      />
+      <Button
+        label="No"
+        icon="pi pi-times"
+        onClick={() => {
+          onHideDel();
+        }}
+      />
+    </div>
+  );
 
   return (
     <div>
       <Toast ref={(el) => (toast = el)} />
+
       <Dialog
         header="Pay order"
         visible={displayBasic}
         style={{ width: "50vw" }}
         onHide={() => onHide("displayBasic")}
       >
+        <Button
+          label="Delete"
+          className="p-button-raised p-button-danger"
+          onClick={handleDelete}
+          style={{
+            display: "flex",
+            marginInlineStart: "auto",
+          }}
+        />
         <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
           <div className="p-field p-col-4">
             <label htmlFor="product_id">Product ID</label>
@@ -92,6 +176,8 @@ const EditProductForm = ({ selectedProduct, displayBasic, onHide }) => {
               id="price"
               type="number"
               name="price"
+              min="0"
+              max="999999999"
               value={price}
               onChange={onChange}
               required
@@ -103,6 +189,7 @@ const EditProductForm = ({ selectedProduct, displayBasic, onHide }) => {
             <InputTextarea
               id="note"
               type="text"
+              maxLength="97"
               value={note ? note : ""}
               onChange={onChange}
               name="note"
@@ -112,15 +199,35 @@ const EditProductForm = ({ selectedProduct, displayBasic, onHide }) => {
           </div>
 
           <div className="p-field p-col-12">
-            <label>{error ? error : ""}</label>
+            <label>{error ? "something went wrong" : ""}</label>
           </div>
-          <Button
-            label="Add"
-            className="p-col-2 p-justify-end"
-            type="submit"
-            icon="pi pi-check"
-          />
+          <div
+            className="p-p-4"
+            style={{
+              marginInlineStart: "auto",
+            }}
+          >
+            <Button
+              type="submit"
+              label="Update Product"
+              className="p-d-block p-mx-auto"
+              icon="pi pi-user-plus"
+            />
+          </div>
         </form>
+      </Dialog>
+
+      <Dialog
+        header="Warning"
+        visible={displayBasicDelete}
+        style={{ width: "50vw" }}
+        onHide={() => onHideDel("displayBasicDelete")}
+        footer={footer}
+      >
+        <p>
+          This Product is included in orders. It is reccomended that avoid
+          deleting these type of Products.
+        </p>
       </Dialog>
     </div>
   );

@@ -53,7 +53,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       defaultValue: 0
     },
-    softDelete: {
+    soft_delete: {
       type: DataTypes.INTEGER,
       allowNull: true
     }

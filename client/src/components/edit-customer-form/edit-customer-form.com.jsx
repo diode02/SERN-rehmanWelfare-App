@@ -7,10 +7,14 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 // import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
-
-import { patchProductApi } from "../../utils/products.utils";
+import {
+  deleteCustomerApi,
+  getOrdersWhereUser,
+} from "../../utils/customers.utils";
 import { patchCustomerApi } from "../../utils/customers.utils";
+import { getOdersApiInstallment } from "../../utils/orders.utils";
 const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
+  const [displayBasicDelete, setDisplayBasicDelete] = useState(false);
   const [customer, setCustomer] = useState({
     ...selectedCustomer,
   });
@@ -18,7 +22,6 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
   const { customer_id, first_name, last_name, mobile_number, city } = customer;
 
   const { note, address, home_other_number } = customer.subData[0];
-
   let toast;
 
   useEffect(() => {
@@ -57,7 +60,6 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
       },
     })
       .then((res) => {
-        console.log(res);
         toast.show({
           severity: "Success",
           summary: "Success Message",
@@ -67,9 +69,86 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
         onHide();
       })
       .catch((err) => {
-        setError(err.response.data.error.sqlMessage);
+        setError("something went wrong");
       });
   };
+
+  const handleDelete = () => {
+    //check if this user have orders
+    getOrdersWhereUser([
+      { customer_id: customer_id },
+      { guarantor_one_id: customer_id },
+      { guarantor_two_id: customer_id },
+      { guarantor_three_id: customer_id },
+    ]).then((res) => {
+      if (res.length > 0) {
+        onClickDel();
+      } else {
+        deleteCustomerApi(customer_id)
+          .then((res) => {
+            toast.show({
+              severity: "Success",
+              summary: "Success Message",
+              detail: "Message Content",
+              life: 3000,
+            });
+            onHide();
+          })
+          .catch((err) => {
+            setError(err.sqlMessage);
+          });
+      }
+    });
+  };
+
+  const handleSoftDelete = () => {
+    patchCustomerApi({
+      where: { customer_id },
+      updates: {
+        soft_delete: 1,
+      },
+    })
+      .then((res) => {
+        toast.show({
+          severity: "Success",
+          summary: "Success Message",
+          detail: "Message Content",
+          life: 3000,
+        });
+        onHideDel();
+        onHide();
+      })
+      .catch((err) => {
+        // console.log({ err });
+        setError(err.sqlMessage);
+      });
+  };
+
+  const onHideDel = () => {
+    setDisplayBasicDelete(false);
+  };
+  const onClickDel = () => {
+    setDisplayBasicDelete(true);
+  };
+
+  const footer = (
+    <div>
+      <Button
+        label="Yes"
+        icon="pi pi-check"
+        onClick={() => {
+          handleSoftDelete();
+        }}
+      />
+      <Button
+        label="No"
+        icon="pi pi-times"
+        onClick={() => {
+          onHideDel();
+        }}
+      />
+    </div>
+  );
 
   return (
     <div>
@@ -80,6 +159,15 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
         style={{ width: "50vw" }}
         onHide={() => onHide("displayBasic")}
       >
+        <Button
+          label="Delete"
+          className="p-button-raised p-button-danger"
+          onClick={handleDelete}
+          style={{
+            display: "flex",
+            marginInlineStart: "auto",
+          }}
+        />
         <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
           <div className="p-field p-col-4">
             <label htmlFor="customer_id">Customer CNIC</label>
@@ -99,6 +187,7 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
               id="first_name"
               type="text"
               name="first_name"
+              maxLength="45"
               value={first_name}
               onChange={onChange}
               required
@@ -110,6 +199,7 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
               id="last_name"
               type="text"
               name="last_name"
+              maxLength="45"
               value={last_name}
               onChange={onChange}
               required
@@ -119,7 +209,9 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
             <label htmlFor="mobile_number">Mobile Number</label>
             <InputText
               id="mobile_number"
-              type="text"
+              type="number"
+              max="99999999999999"
+              min="99"
               name="mobile_number"
               value={mobile_number}
               onChange={onChange}
@@ -132,6 +224,8 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
               id="home_other_number"
               value={home_other_number ? home_other_number : ""}
               type="number"
+              max="99999999999999"
+              min="99"
               name="home_other_number"
               onChange={onChangeSub}
             />
@@ -145,6 +239,7 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
               value={address}
               onChange={onChangeSub}
               name="address"
+              maxLength="230"
               rows="4"
             />
           </div>
@@ -153,6 +248,7 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
             <InputText
               id="city"
               type="text"
+              maxLength="42"
               name="city"
               value={city}
               onChange={onChange}
@@ -166,6 +262,7 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
               type="text"
               value={note ? note : ""}
               onChange={onChangeSub}
+              maxLength="97"
               name="note"
               placeholder="add any note about this product (optional)"
               rows="4"
@@ -173,15 +270,34 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
           </div>
 
           <div className="p-field p-col-12">
-            <label>{error ? error : ""}</label>
+            <label>{error ? "something went wrong" : ""}</label>
           </div>
-          <Button
-            label="Add"
-            className="p-col-2 p-justify-end"
-            type="submit"
-            icon="pi pi-check"
-          />
+          <div
+            className="p-p-4"
+            style={{
+              marginInlineStart: "auto",
+            }}
+          >
+            <Button
+              type="submit"
+              label="Update Customer"
+              className="p-d-block p-mx-auto"
+              icon="pi pi-user-edit"
+            />
+          </div>
         </form>
+      </Dialog>
+      <Dialog
+        header="Warning"
+        visible={displayBasicDelete}
+        style={{ width: "50vw" }}
+        onHide={() => onHideDel("displayBasicDelete")}
+        footer={footer}
+      >
+        <p>
+          This customer is included in orders as a customer or gurrantor. It is
+          reccomended that avoid deleting these type of customer
+        </p>
       </Dialog>
     </div>
   );

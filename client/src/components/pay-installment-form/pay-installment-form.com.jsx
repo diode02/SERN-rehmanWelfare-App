@@ -38,8 +38,24 @@ const PayInstallmentForm = ({
   } = installment;
   const onChange = ({ target }) => {
     const { name, value } = target;
+    // if (name === "amount_received") {
+    //   setInstallment({
+    //     ...installment,
+    //     [name]: parseInt(value) + parseInt(penality),
+    //   });
+    //   return;
+    // } else if (name === "penality" && amount_received !== 0) {
+    //   setInstallment({
+    //     ...installment,
+    //     [name]: value,
+    //     amount_received: parseInt(value) + parseInt(amount_received),
+    //   });
+    //   return;
+    // }
     setInstallment({ ...installment, [name]: value });
   };
+
+  const [error, setError] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -48,7 +64,6 @@ const PayInstallmentForm = ({
       updates: { penality, amount_received, note, username_id },
     })
       .then((res) => {
-        onHide();
         updateInstallment(installment);
         // toast.show({
         //   severity: "success",
@@ -56,8 +71,9 @@ const PayInstallmentForm = ({
         //   detail: "Message Content",
         //   life: 3000,
         // });
+        onHide();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setError("something went wrong"));
     // dispatch(postCustomerStart(customerData));
   };
   return (
@@ -137,6 +153,7 @@ const PayInstallmentForm = ({
               value={penality}
               type="number"
               required
+              max="999999"
               onChange={onChange}
             />
           </div>
@@ -149,6 +166,7 @@ const PayInstallmentForm = ({
               value={amount_received}
               type="number"
               required
+              max="99999999"
               onChange={onChange}
             />
           </div>
@@ -161,11 +179,12 @@ const PayInstallmentForm = ({
               type="text"
               value={note ? note : ""}
               rows="4"
+              maxLength="95"
               onChange={onChange}
             />
           </div>
 
-          <div
+          <span
             className="p-col-2 p-justify-end"
             onClick={() => {
               setInstallment({
@@ -175,19 +194,30 @@ const PayInstallmentForm = ({
                 note: " ",
               });
             }}
+            style={{
+              fontWeight: "bolder",
+              fontSize: "1.2rem",
+            }}
           >
             Auto Fill
-          </div>
+          </span>
 
           <div className="p-field p-col-12">
-            {/* <label>{error ? error.code : ""}</label> */}
+            <label>{error ? "something went wrong" : ""}</label>
           </div>
-          <Button
-            label=""
-            className="p-col-2 p-justify-end"
-            type="submit"
-            icon="pi pi-check"
-          />
+          <div
+            className="p-p-4"
+            style={{
+              marginInlineStart: "auto",
+            }}
+          >
+            <Button
+              type="submit"
+              label="Pay Installment"
+              className="p-d-block p-mx-auto"
+              icon="pi pi-user-plus"
+            />
+          </div>
         </form>
       </Dialog>
     </div>

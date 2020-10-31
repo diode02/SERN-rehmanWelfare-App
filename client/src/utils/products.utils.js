@@ -20,7 +20,6 @@ export async function postProductApi(order) {
     data: order,
   }).then(
     (response) => {
-      console.log(response.data);
       return response.data;
     },
     (error) => {
@@ -42,6 +41,22 @@ export async function patchProductApi(dataWhereUpdates) {
     },
     (error) => {
       throw error;
+    }
+  );
+  return data;
+}
+
+export async function deleteProductApi(id) {
+  const data = await axios({
+    method: "delete",
+    url: "products/" + id,
+  }).then(
+    (response) => {
+      // let data = Object.values(response.data);
+      return response.data;
+    },
+    (error) => {
+      throw error.response.data.error;
     }
   );
   return data;

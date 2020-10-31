@@ -148,7 +148,6 @@ const PayInstallmentsPage = () => {
                 headerStyle={{ width: "7rem" }}
                 bodyStyle={{ textAlign: "center" }}
                 onClick={() => {
-                  console.log("called");
                   onClick("displayBasic");
                 }}
               ></Column> */}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import AddOrderForm from "../../components/add-order-form.com.jsx/add-order-form.com";
+import AddOrderForm from "../../components/add-order-form/add-order-form.com";
 import NewCustomer from "../../components/new-customer/new-customer.com";
 import "./sty.css";
 // import { selectCustomersID } from "../../redux/customers/customers.selector";

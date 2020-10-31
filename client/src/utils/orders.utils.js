@@ -67,6 +67,22 @@ export async function patchOrderApi(dataWhereUpdates) {
   return data;
 }
 
+export async function deleteOrderApi(id) {
+  const data = await axios({
+    method: "delete",
+    url: "orders/" + id,
+  }).then(
+    (response) => {
+      // let data = Object.values(response.data);
+      return response.data;
+    },
+    (error) => {
+      throw error.response.data.error;
+    }
+  );
+  return data;
+}
+
 const getInGoodShape = (order) => {
   return {
     order_id: order.order_id,

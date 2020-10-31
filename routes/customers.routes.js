@@ -1,4 +1,5 @@
 var express = require("express");
+const { Op } = require("sequelize");
 var router = express.Router();
 const db = require("../src/models");
 
@@ -10,6 +11,25 @@ router.get("/", async (req, res, next) => {
     const response = await db.customers.findAll({
       where: {
         ...req.body,
+        soft_delete: {
+          [Op.is]: null,
+        },
+      },
+    });
+    res.status(200).send(response);
+  } catch (error) {
+    res.status(401).send({ error });
+  }
+});
+
+router.post("/ff", async (req, res, next) => {
+  try {
+    const response = await db.customers.findAll({
+      where: {
+        ...req.body,
+        soft_delete: {
+          [Op.is]: null,
+        },
       },
     });
     res.status(200).send(response);
@@ -73,6 +93,7 @@ router.patch("/", async (req, res, next) => {
     "address",
     "city",
     "note",
+    "soft_delete",
   ];
   const updates = Object.keys(req.body.updates);
   const isvalidOrNot = updates.every((update) =>
@@ -83,7 +104,6 @@ router.patch("/", async (req, res, next) => {
     return res
       .status(400)
       .send({ error: { sqlMessage: "Invalid Operation", errno: 4000 } });
-  console.log(req.body.updates);
   try {
     const response = await db.customers.update(req.body.updates, {
       where: {
