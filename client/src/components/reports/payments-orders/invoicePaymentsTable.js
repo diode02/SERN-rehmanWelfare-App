@@ -23,7 +23,6 @@ const InvoicePaymentsTable = ({ invoice }) => (
     </View>
     <InvoiceTableHeader />
     <InvoiceTableRow insts={invoice.insts} />
-    <InvoiceTableBlankSpace rowsCount={tableRowsCount - invoice.items.length} />
   </View>
 );
 

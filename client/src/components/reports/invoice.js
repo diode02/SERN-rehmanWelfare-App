@@ -34,7 +34,7 @@ const Invoice = ({ invoice }) => (
       <InvoiceTitle title="Rehman Welfare" />
       <InvoiceNo invoice={invoice} />
       <BillTo invoice={invoice} />
-      {invoice.installments_payment_id !== "NA" ? (
+      {invoice.items !== "NA" ? (
         <View>
           <InvoiceItemsTable invoice={invoice} />
           <InvoicePaymentsTable invoice={invoice} />

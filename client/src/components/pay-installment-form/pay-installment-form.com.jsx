@@ -3,11 +3,14 @@ import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
+import { useHistory } from "react-router-dom";
 import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
 
 import { patchInstallmentsApi } from "../../utils/installments.utils";
 import { useSelector } from "react-redux";
+import invoiceData from "../../data/invoice-data";
+import { getInvoiceDataByIns } from "../../utils/invoices.utils";
 const PayInstallmentForm = ({
   selectedInstallment,
   displayBasic,
@@ -17,6 +20,7 @@ const PayInstallmentForm = ({
   const [installment, setInstallment] = useState({
     ...selectedInstallment,
   });
+  const history = useHistory();
   useEffect(() => {
     setInstallment({
       ...selectedInstallment,
@@ -55,6 +59,48 @@ const PayInstallmentForm = ({
     setInstallment({ ...installment, [name]: value });
   };
 
+  const handlePrint = (_id) => {
+    getInvoiceDataByIns(_id).then((res) => {
+      let reD = res[0];
+      invoiceData.invoice_no = reD.RID;
+      invoiceData.address = reD.ADDRESS;
+      invoiceData.first_name = reD.FNAME;
+      invoiceData.last_name = reD.LNAME;
+      invoiceData.mobile = reD.MOBILE;
+      invoiceData.trans_date = reD.updatedAt;
+      // invoiceData.gurr_one = reD.GU_ONE;
+      // invoiceData.gurr_two = reD.GU_TWO;
+      // invoiceData.gurr_three = reD.GU_THREE;
+      // invoiceData.discount = reD.DISCOUNT;
+      // invoiceData.pid = reD.PID;
+      invoiceData.cid = reD.CID;
+      invoiceData.tot_int = reD.TOT_INS;
+      invoiceData.oid = reD.OID;
+
+      // invoiceData.advance = reD.ADVANCE;
+      invoiceData.username = reD.username_id;
+      // invoiceData.ins_start_date = reD.INS_START_DATE;
+      // invoiceData.items[0].desc = reD.PNAME;
+      // invoiceData.items[0].rate = reD.AMOUNT_ITEM;
+      // invoiceData.items[0].qty = reD.QUANTITY;
+      // invoiceData.items[0].pid = reD.PID;
+      // invoiceData.items[0].tot = reD.TOTAL;
+      invoiceData.items = "NA";
+      invoiceData.insts = [
+        {
+          installments_payment_id: reD.installments_payment_id,
+          installment_no: reD.installment_no,
+          due_date: reD.due_date,
+          penality: reD.penality,
+          previous_outstanding: reD.previous_outstanding,
+          amount_received: reD.amount_received,
+          amount_to_receive: reD.amount_to_receive,
+        },
+      ];
+      history.push("/invoice");
+    });
+  };
+
   const [error, setError] = useState(null);
 
   const handleSubmit = (event) => {
@@ -85,6 +131,15 @@ const PayInstallmentForm = ({
         style={{ width: "70vw" }}
         onHide={() => onHide("displayBasic")}
       >
+        <Button
+          label="Print"
+          className="p-button-raised p-button"
+          onClick={() => handlePrint(installments_payment_id)}
+          style={{
+            display: "flex",
+            marginInlineStart: "auto",
+          }}
+        />
         <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
           <div className="p-field p-col-3">
             <label htmlFor="cnic">Order ID</label>

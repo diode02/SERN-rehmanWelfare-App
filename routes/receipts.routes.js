@@ -19,4 +19,19 @@ router.get("/ord/:id", async (req, res, next) => {
     res.status(401).send({ error });
   }
 });
+
+router.get("/ins/:id", async (req, res, next) => {
+  try {
+    const [results] = await db.sequelize.query(
+      `call get_installment_data(${req.params.id})`,
+      {
+        type: QueryTypes.SELECT,
+      }
+    );
+    res.status(200).send(results);
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({ error });
+  }
+});
 module.exports = router;

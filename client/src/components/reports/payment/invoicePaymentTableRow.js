@@ -44,8 +44,8 @@ const InvoiceTableRow = ({ installment }) => {
     <View style={styles.row}>
       <Text style={styles.description}>{item.desc}</Text>
       <Text style={styles.qty}>{item.qty}</Text>
-      <Text style={styles.rate}>{item.rate.toFixed(2)}</Text>
-      <Text style={styles.amount}>{(item.qty * item.rate).toFixed(2)}</Text>
+      <Text style={styles.rate}>{item.rate}</Text>
+      <Text style={styles.amount}>{item.qty * item.rate}</Text>
     </View>
   );
 };

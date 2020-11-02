@@ -15,6 +15,21 @@ export async function getInvoiceDataByOrder(id) {
   return data;
 }
 
+export async function getInvoiceDataByIns(id) {
+  const data = await axios({
+    method: "get",
+    url: "/receipts/ins/" + id,
+  }).then(
+    (response) => {
+      return response.data;
+    },
+    (error) => {
+      throw error;
+    }
+  );
+  return data;
+}
+
 // export async function postCustomerApi(customer) {
 //   const data = await axios({
 //     method: "post",

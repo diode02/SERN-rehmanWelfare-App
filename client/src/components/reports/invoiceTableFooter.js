@@ -32,21 +32,15 @@ const InvoiceTableFooter = ({ invoice }) => {
     <Fragment>
       <View style={styles.row}>
         <Text style={styles.description}>DISCOUNT</Text>
-        <Text style={styles.total}>
-          {Number.parseFloat(invoice.discount).toFixed(2)}
-        </Text>
+        <Text style={styles.total}>{invoice.discount}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.description}>ADVANCE</Text>
-        <Text style={styles.total}>
-          {Number.parseFloat(invoice.advance).toFixed(2)}
-        </Text>
+        <Text style={styles.total}>{invoice.advance}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.description}>TOTAL PAYABLE</Text>
-        <Text style={styles.total}>
-          {Number.parseFloat(invoice.items[0].tot).toFixed(2)}
-        </Text>
+        <Text style={styles.total}>{invoice.items[0].tot}</Text>
       </View>
     </Fragment>
   );

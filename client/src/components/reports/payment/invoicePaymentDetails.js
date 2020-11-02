@@ -18,22 +18,8 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     paddingLeft: 8,
   },
-  qty: {
-    width: "10%",
-    borderRightColor: borderColor,
-    borderRightWidth: 1,
-    textAlign: "right",
-    paddingRight: 8,
-  },
-  rate: {
-    width: "15%",
-    borderRightColor: borderColor,
-    borderRightWidth: 1,
-    textAlign: "right",
-    paddingRight: 8,
-  },
   amount: {
-    width: "15%",
+    width: "30%",
     textAlign: "right",
     paddingRight: 8,
   },
