@@ -11,6 +11,8 @@ import { selectCustomersIdWithName } from "../../redux/customers/customers.selec
 import { selectProductIdName } from "../../redux/products/products.selector";
 import { selectPrices } from "../../redux/products/products.selector";
 import { useHistory } from "react-router-dom";
+import invoiceData from "../../data/invoice-data";
+import { getInvoiceDataByOrder } from "../../utils/invoices.utils";
 
 const AddOrderForm = () => {
   const dispatch = useDispatch();
@@ -34,19 +36,48 @@ const AddOrderForm = () => {
           detail: "New Order Added",
           life: 3000,
         });
-        setOrderData({
-          customer_id: "",
-          product_id: "",
-          guarantor_one_id: "",
-          total_installments: 0,
-          amount_item: 0,
-          quantity: 1,
-          discount: 0,
-          total: 0,
-          note: "",
-          downpayment: 0,
-        });
-        history.push("/orders");
+        getInvoiceDataByOrder(orders[orders.length - 1].order_id).then(
+          (res) => {
+            console.log(res);
+            let reD = res[0];
+            invoiceData.invoice_no = reD.RID;
+            invoiceData.address = reD.ADDRESS;
+            invoiceData.first_name = reD.FNAME;
+            invoiceData.last_name = reD.LNAME;
+            invoiceData.mobile = reD.MOBILE;
+            invoiceData.trans_date = reD.ORDER_DATE;
+            invoiceData.gurr_one = reD.GU_ONE;
+            invoiceData.gurr_two = reD.GU_TWO;
+            invoiceData.gurr_three = reD.GU_THREE;
+            invoiceData.discount = reD.DISCOUNT;
+            invoiceData.pid = reD.PID;
+            invoiceData.cid = reD.CID;
+            invoiceData.tot_int = reD.TOT_INS;
+            invoiceData.advance = reD.ADVANCE;
+            invoiceData.username = reD.USERNAME;
+            invoiceData.ins_start_date = reD.INS_START_DATE;
+            invoiceData.items[0].desc = reD.PNAME;
+            invoiceData.items[0].rate = reD.AMOUNT_ITEM;
+            invoiceData.items[0].qty = reD.QUANTITY;
+            invoiceData.items[0].pid = reD.PID;
+            invoiceData.items[0].tot = reD.TOTAL;
+            history.push("/invoice");
+          }
+        );
+
+        // setOrderData({
+        //   customer_id: "",
+        //   product_id: "",
+        //   guarantor_one_id: "",
+        //   total_installments: 0,
+        //   amount_item: 0,
+        //   quantity: 1,
+        //   discount: 0,
+        //   total: 0,
+        //   note: "",
+        //   downpayment: 0,
+        // });
+        //history.push("/orders");
       }
   }, [orders, displayBasic, prevOrders, toast]);
   const username_id = useSelector(
@@ -113,17 +144,6 @@ const AddOrderForm = () => {
     }
     setOrderData({ ...orderData, [name]: value });
   };
-
-  // let today = new Date();
-  // let month = today.getMonth();
-  // let year = today.getFullYear();
-  // let prevMonth = month === 0 ? 11 : month - 1;
-  // let prevYear = prevMonth === 11 ? year - 1 : year;
-
-  // const minDate = new Date();
-  // minDate.setDate(Date.now());
-  // minDate.setMonth(prevMonth);
-  // minDate.setFullYear(prevYear);
 
   let today = new Date();
   let month = today.getMonth();

@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import EditOrderForm from "../../components/edit-order-form/edit-order-form.com";
 import { fetchOrdersStart } from "../../redux/orders/orders.actions";
+import invoiceData from "../../data/invoice-data";
+import { getInvoiceDataByOrder } from "../../utils/invoices.utils";
+import { getInstallmentsApi } from "../../utils/installments.utils";
 
 const AllOrders = () => {
   const ordersModi = useSelector((state) => state.orders.orders);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [displayBasic, setDisplayBasic] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   const onHide = (name) => {
     setDisplayBasic(false);
     dispatch(fetchOrdersStart());
@@ -35,6 +40,43 @@ const AllOrders = () => {
     //     return installment;
     //   })
     // );
+  };
+
+  const handlePrint = (_id) => {
+    getInvoiceDataByOrder(_id).then((res) => {
+      let reD = res[0];
+      invoiceData.invoice_no = reD.RID;
+      invoiceData.address = reD.ADDRESS;
+      invoiceData.first_name = reD.FNAME;
+      invoiceData.last_name = reD.LNAME;
+      invoiceData.mobile = reD.MOBILE;
+      invoiceData.trans_date = reD.ORDER_DATE;
+      invoiceData.gurr_one = reD.GU_ONE;
+      invoiceData.gurr_two = reD.GU_TWO;
+      invoiceData.gurr_three = reD.GU_THREE;
+      invoiceData.discount = reD.DISCOUNT;
+      invoiceData.pid = reD.PID;
+      invoiceData.cid = reD.CID;
+      invoiceData.tot_int = reD.TOT_INS;
+      invoiceData.advance = reD.ADVANCE;
+      invoiceData.username = reD.USERNAME;
+      invoiceData.ins_start_date = reD.INS_START_DATE;
+      invoiceData.items[0].desc = reD.PNAME;
+      invoiceData.items[0].rate = reD.AMOUNT_ITEM;
+      invoiceData.items[0].qty = reD.QUANTITY;
+      invoiceData.items[0].pid = reD.PID;
+      invoiceData.items[0].tot = reD.TOTAL;
+
+      getInstallmentsApi({
+        where: {
+          order_id: reD.OI,
+        },
+      }).then((resp) => {
+        invoiceData.insts = resp;
+        console.log(invoiceData);
+        history.push("/invoice");
+      });
+    });
   };
 
   const formateStatus = (rowData) => {
@@ -100,6 +142,7 @@ const AllOrders = () => {
           displayBasic={displayBasic}
           onHide={onHide}
           updateOrders={updateOrders}
+          handlePrint={handlePrint}
         />
       ) : null}
     </div>

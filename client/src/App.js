@@ -20,14 +20,14 @@ import PayInstallmentRedirectPage from "./pages/pay-installments/pay-installment
 import { useSelector } from "react-redux";
 import AddProductPage from "./pages/product/product.com";
 import ProductsPage from "./pages/products/products.com";
+import InvoiceCom from "./components/reports/inoice.com";
+import InvoicesPage from "./pages/invoices/invoices.com";
 
 function App() {
   let history = useHistory();
   const user = useSelector((state) => state.user.currentUser);
 
-  useEffect(() => {
-    console.log("called");
-  }, []);
+  useEffect(() => {}, []);
 
   const items = [
     { label: "Home", icon: "pi pi-fw pi-home" },
@@ -38,6 +38,7 @@ function App() {
     { label: "All Products", icon: "pi pi-user" },
     { label: "New Customer", icon: "pi pi-user-plus" },
     { label: "Add Product", icon: "pi pi-star-o" },
+    { label: "Invoices", icon: "pi pi-star-o" },
   ];
 
   const handleSetActiveItem = (url) => {
@@ -66,6 +67,9 @@ function App() {
       case "All Products":
         history.push("/products");
         break;
+      case "  ":
+        history.push("/invoices");
+        break;
     }
   };
 
@@ -77,7 +81,6 @@ function App() {
         model={items}
         activeItem={activeItem}
         onTabChange={(e) => {
-          console.log(e.value);
           setActiveItem(e.value);
           handleSetActiveItem(e.value.label);
         }}
@@ -129,6 +132,12 @@ function App() {
             path="/products"
             component={user ? ProductsPage : SignInSignUp}
           />
+          <Route
+            exact
+            path="/invoices"
+            component={user ? InvoicesPage : SignInSignUp}
+          />
+          <Route exact path="/invoice" component={InvoiceCom} />
         </Switch>
       </div>
     </div>

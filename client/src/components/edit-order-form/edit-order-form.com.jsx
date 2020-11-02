@@ -22,6 +22,7 @@ const EditOrderForm = ({
   displayBasic,
   onHide,
   updateOrder,
+  handlePrint,
 }) => {
   let customers = useSelector(selectCustomersIdWithName);
   const products_id_name = useSelector(selectProductIdName);
@@ -161,8 +162,7 @@ const EditOrderForm = ({
       },
     })
       .then((res) => {
-        console.log(res);
-        updateOrder(order);
+        //updateOrder(order);
         toast.show({
           severity: "success",
           summary: "Success Message",
@@ -173,28 +173,8 @@ const EditOrderForm = ({
       })
       .catch((err) => {
         setError("something went wrong");
-        // console.log(err);
       });
-    // dispatch(postCustomerStart(customerData));
   };
-
-  // const handleDeleteButton = () => {
-  //   deleteOrderApi(order_id)
-  //     .then((res) => {
-  //       toast.show({
-  //         severity: "Success",
-  //         summary: "Success Message",
-  //         detail: "Message Content",
-  //         life: 3000,
-  //       });
-  //       onHide();
-  //     })
-  //     .catch((err) => {
-  //       // console.log({ err });
-  //       // setError(err.sqlMessage);
-  //     });
-  // };
-
   const handleDelete = () => {
     deleteOrderApi(order_id)
       .then((res) => {
@@ -240,8 +220,6 @@ const EditOrderForm = ({
   let today = new Date();
   let month = today.getMonth();
   let year = today.getFullYear();
-  let prevMonth = month === 0 ? 11 : month - 1;
-  let prevYear = prevMonth === 11 ? year - 1 : year;
   let nextMonth = month === 11 ? 0 : month + 1;
   let nextYear = nextMonth === 0 ? year + 1 : year;
 
@@ -266,6 +244,16 @@ const EditOrderForm = ({
           label="Delete"
           className="p-button-raised p-button-danger"
           onClick={onClickDel}
+          style={{
+            display: "flex",
+            marginInlineStart: "auto",
+          }}
+        />
+        <br />
+        <Button
+          label="Print"
+          className="p-button-raised p-button"
+          onClick={() => handlePrint(order_id)}
           style={{
             display: "flex",
             marginInlineStart: "auto",
@@ -476,7 +464,7 @@ const EditOrderForm = ({
           >
             <Button
               type="submit"
-              label="Add Customer"
+              label="Update Order"
               className="p-d-block p-mx-auto"
               icon="pi pi-user-plus"
             />
