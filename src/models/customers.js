@@ -56,6 +56,10 @@ module.exports = function(sequelize, DataTypes) {
     soft_delete: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    photoPath: {
+      type: DataTypes.STRING(100),
+      allowNull: true
     }
   }, {
     sequelize,

@@ -1,10 +1,16 @@
 import { takeLatest, call, put, all } from "redux-saga/effects";
-import { getCustomersApi, postCustomerApi } from "../../utils/customers.utils";
+import {
+  getCustomersApi,
+  postCustomerApi,
+  getAvatarApi,
+} from "../../utils/customers.utils";
 import {
   fetchCustomersSuccess,
   fetchCustomersFailure,
   postCustomerSuccess,
   postCustomerFailure,
+  getAvatarFailure,
+  getAvatarSucess,
 } from "./customers.actions";
 import CustomersActionTypes from "./customers.types";
 
@@ -33,6 +39,19 @@ export function* postCustomerStartAsync({ payload }) {
   }
 }
 
+export function* getAvatar({ payload }) {
+  try {
+    const avatar = yield getAvatarApi(payload);
+    yield put(getAvatarSucess({ avatar, payload }));
+  } catch (error) {
+    yield put(getAvatarFailure(error));
+  }
+}
+
+export function* onGetAvatarStart() {
+  yield takeLatest(CustomersActionTypes.GET_AVATAR_START, getAvatar);
+}
+
 export function* onPostCustomerStart() {
   yield takeLatest(
     CustomersActionTypes.POST_CUSTOMER_START,
@@ -41,5 +60,9 @@ export function* onPostCustomerStart() {
 }
 
 export function* customersSagas() {
-  yield all([call(onFetchCustomersStart), call(onPostCustomerStart)]);
+  yield all([
+    call(onFetchCustomersStart),
+    call(onGetAvatarStart),
+    call(onPostCustomerStart),
+  ]);
 }

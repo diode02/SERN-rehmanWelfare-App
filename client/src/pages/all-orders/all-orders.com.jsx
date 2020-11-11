@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -57,15 +57,17 @@ const AllOrders = () => {
       invoiceData.discount = reD.DISCOUNT;
       invoiceData.pid = reD.PID;
       invoiceData.cid = reD.CID;
+      invoiceData.oid = reD.OID;
       invoiceData.tot_int = reD.TOT_INS;
       invoiceData.advance = reD.ADVANCE;
       invoiceData.username = reD.USERNAME;
       invoiceData.ins_start_date = reD.INS_START_DATE;
-      invoiceData.items[0].desc = reD.PNAME;
-      invoiceData.items[0].rate = reD.AMOUNT_ITEM;
-      invoiceData.items[0].qty = reD.QUANTITY;
-      invoiceData.items[0].pid = reD.PID;
-      invoiceData.items[0].tot = reD.TOTAL;
+      invoiceData.order.desc = reD.PNAME;
+      invoiceData.order.rate = reD.AMOUNT_ITEM;
+      invoiceData.order.qty = reD.QUANTITY;
+      invoiceData.order.pid = reD.PID;
+      invoiceData.order.tot = reD.TOTAL;
+      invoiceData.ordOrIns = "ord";
 
       getInstallmentsApi({
         where: {
@@ -73,7 +75,6 @@ const AllOrders = () => {
         },
       }).then((resp) => {
         invoiceData.insts = resp;
-        console.log(invoiceData);
         history.push("/invoice");
       });
     });

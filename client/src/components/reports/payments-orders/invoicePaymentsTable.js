@@ -2,9 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet } from "@react-pdf/renderer";
 import InvoiceTableHeader from "./invoicePaymentsTableHeader";
 import InvoiceTableRow from "./invoicePaymentsTableRow";
-import InvoiceTableBlankSpace from "./invoicePaymentsTableBlankSpace";
-
-const tableRowsCount = 3;
 
 const styles = StyleSheet.create({
   tableContainer: {

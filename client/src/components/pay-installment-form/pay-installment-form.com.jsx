@@ -4,8 +4,7 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useHistory } from "react-router-dom";
-import { InputNumber } from "primereact/inputnumber";
-import { Toast } from "primereact/toast";
+// import { Toast } from "primereact/toast";
 
 import { patchInstallmentsApi } from "../../utils/installments.utils";
 import { useSelector } from "react-redux";
@@ -26,7 +25,6 @@ const PayInstallmentForm = ({
       ...selectedInstallment,
     });
   }, [selectedInstallment]);
-  let toast;
   const username_id = useSelector(
     (state) => state.user.currentUser.username_id
   );
@@ -85,7 +83,7 @@ const PayInstallmentForm = ({
       // invoiceData.items[0].qty = reD.QUANTITY;
       // invoiceData.items[0].pid = reD.PID;
       // invoiceData.items[0].tot = reD.TOTAL;
-      invoiceData.items = "NA";
+      invoiceData.ordOrIns = "ins";
       invoiceData.insts = [
         {
           installments_payment_id: reD.installments_payment_id,
@@ -124,22 +122,24 @@ const PayInstallmentForm = ({
   };
   return (
     <div>
-      <Toast ref={(el) => (toast = el)} />
+      {/* <Toast ref={(el) => (toast = el)} /> */}
       <Dialog
         header="Pay Installment"
         visible={displayBasic}
         style={{ width: "70vw" }}
         onHide={() => onHide("displayBasic")}
       >
-        <Button
-          label="Print"
-          className="p-button-raised p-button"
-          onClick={() => handlePrint(installments_payment_id)}
-          style={{
-            display: "flex",
-            marginInlineStart: "auto",
-          }}
-        />
+        {parseInt(amount_received) === 0 ? null : (
+          <Button
+            label="Print"
+            className="p-button-raised p-button"
+            onClick={() => handlePrint(installments_payment_id)}
+            style={{
+              display: "flex",
+              marginInlineStart: "auto",
+            }}
+          />
+        )}
         <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
           <div className="p-field p-col-3">
             <label htmlFor="cnic">Order ID</label>

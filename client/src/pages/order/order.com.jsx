@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import AddOrderForm from "../../components/add-order-form/add-order-form.com";
 import NewCustomer from "../../components/new-customer/new-customer.com";
 import "./sty.css";

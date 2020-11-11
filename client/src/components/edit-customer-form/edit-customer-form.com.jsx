@@ -9,10 +9,10 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Toast } from "primereact/toast";
 import {
   deleteCustomerApi,
+  getAvatarApi,
   getOrdersWhereUser,
 } from "../../utils/customers.utils";
 import { patchCustomerApi } from "../../utils/customers.utils";
-import { getOdersApiInstallment } from "../../utils/orders.utils";
 const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
   const [displayBasicDelete, setDisplayBasicDelete] = useState(false);
   const [customer, setCustomer] = useState({
@@ -24,10 +24,20 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
   const { note, address, home_other_number } = customer.subData[0];
   let toast;
 
+  const [imgData, setImgData] = useState(null);
+
   useEffect(() => {
     setCustomer({
       ...selectedCustomer,
     });
+
+    (async function anyNameFunction() {
+      await getAvatarApi(selectedCustomer.customer_id).then((res) => {
+        console.log(res);
+        setImgData(`${res}`);
+      });
+    })();
+
     setError(null);
   }, [selectedCustomer]);
 
@@ -168,6 +178,9 @@ const EditCustomerForm = ({ selectedCustomer, displayBasic, onHide }) => {
             marginInlineStart: "auto",
           }}
         />
+
+        {imgData ? <img src={imgData} alt="profile pic"></img> : null}
+
         <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
           <div className="p-field p-col-4">
             <label htmlFor="customer_id">Customer CNIC</label>

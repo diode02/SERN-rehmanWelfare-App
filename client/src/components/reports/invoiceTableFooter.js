@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
-import Invoice from "./invoice";
 
 const borderColor = "#90e5fc";
 const styles = StyleSheet.create({
@@ -40,7 +39,7 @@ const InvoiceTableFooter = ({ invoice }) => {
       </View>
       <View style={styles.row}>
         <Text style={styles.description}>TOTAL PAYABLE</Text>
-        <Text style={styles.total}>{invoice.items[0].tot}</Text>
+        <Text style={styles.total}>{invoice.order.tot}</Text>
       </View>
     </Fragment>
   );

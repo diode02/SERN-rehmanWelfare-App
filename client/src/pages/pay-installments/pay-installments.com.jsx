@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { ScrollPanel } from "primereact/scrollpanel";
-import { InputText } from "primereact/inputtext";
 import { getOdersApiInstallment } from "../../utils/orders.utils";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -16,10 +15,10 @@ const PayInstallmentsPage = () => {
   const [installments, setInstallments] = useState(undefined);
   const [selectedInstallment, setSelectedInstallment] = useState(null);
   // const [payment, setPayment] = useState(0);
-  const onHide = (name) => {
+  const onHide = () => {
     setDisplayBasic(false);
   };
-  const onClick = (name, position) => {
+  const onClick = () => {
     setDisplayBasic(true);
   };
   const updateInstallment = (install) => {

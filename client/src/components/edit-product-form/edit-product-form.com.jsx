@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
 import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
@@ -8,7 +7,6 @@ import { InputTextarea } from "primereact/inputtextarea";
 // import { InputNumber } from "primereact/inputnumber";
 import { Toast } from "primereact/toast";
 
-import { patchOrderApi } from "../../utils/orders.utils";
 import { deleteProductApi, patchProductApi } from "../../utils/products.utils";
 import { getOrdersWhereUser } from "../../utils/customers.utils";
 const EditProductForm = ({ selectedProduct, displayBasic, onHide }) => {
@@ -18,7 +16,6 @@ const EditProductForm = ({ selectedProduct, displayBasic, onHide }) => {
   });
   const [error, setError] = useState(null);
   const { product_id, product_name, price, note } = order;
-  const dispatch = useDispatch();
   let toast;
 
   useEffect(() => {

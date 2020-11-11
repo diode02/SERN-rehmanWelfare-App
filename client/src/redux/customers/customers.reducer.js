@@ -45,7 +45,16 @@ const customersReducer = (state = INITIAL_STATE, action) => {
         isPosting: false,
         error: action.payload,
       };
-
+    case CustomersActionTypes.GET_AVATAR_SUCCESS:
+      return {
+        ...state,
+        customers: updateCustomersAvatar(state.customers, action.payload),
+      };
+    case CustomersActionTypes.GET_AVATAR_FAILURE:
+      return {
+        ...state,
+        avatar: "not found",
+      };
     default:
       return state;
   }
@@ -57,6 +66,17 @@ let getUpdatedCustomers = (a, b) => {
   });
   c.push(b);
   return c;
+};
+
+let updateCustomersAvatar = (stateCus, para) => {
+  let customers = stateCus.map((a) => {
+    return a;
+  });
+  let index = customers.findIndex(
+    (customer) => (customer.customer_id = para.payload)
+  );
+  customers[index].avatar = para.avatar;
+  return customers;
 };
 
 export default customersReducer;

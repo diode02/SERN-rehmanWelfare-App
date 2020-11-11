@@ -39,15 +39,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const InvoiceTableRow = ({ items }) => {
-  const rows = items.map((item) => (
-    <View style={styles.row} key={item.sno.toString()}>
-      <Text style={styles.description}>{item.desc}</Text>
-      <Text style={styles.qty}>{item.qty}</Text>
-      <Text style={styles.rate}>{item.rate}</Text>
-      <Text style={styles.amount}>{item.qty * item.rate}</Text>
+const InvoiceTableRow = ({ order }) => {
+  const rows = (
+    <View style={styles.row} key={order.sno.toString()}>
+      <Text style={styles.description}>{order.desc}</Text>
+      <Text style={styles.qty}>{order.qty}</Text>
+      <Text style={styles.rate}>{order.rate}</Text>
+      <Text style={styles.amount}>{order.qty * order.rate}</Text>
     </View>
-  ));
+  );
   return <Fragment>{rows}</Fragment>;
 };
 

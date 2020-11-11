@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router";
 
 // import "./sign-in-sign-up.sty.scss";
-import SignUp from "../../components/signUp/signup-com";
+// import SignUp from "../../components/signUp/signup-com";
 import SignIn from "../../components/signIn/sign-in.com";
 
 const SignInSignUp = ({ match }) => {

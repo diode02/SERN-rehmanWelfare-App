@@ -67,11 +67,11 @@ const EditOrderForm = ({
     let index = customers.findIndex(
       (customer) => customer_id === customer.value
     );
-    if (index != -1) customers[index]["disabled"] = true;
+    if (index !== -1) customers[index]["disabled"] = true;
     index = customers.findIndex(
       (customer) => guarantor_one_id === customer.value
     );
-    if (index != -1) customers[index]["disabled"] = true;
+    if (index !== -1) customers[index]["disabled"] = true;
   }, [customers]);
   useEffect(() => {
     dispatch(fetchCustomersStart());
@@ -132,12 +132,12 @@ const EditOrderForm = ({
   };
 
   const handleSelect = (id, e) => {
-    if (id != "") {
+    if (id !== "") {
       let index = customers.findIndex((customer) => id === customer.value);
-      if (index != -1) customers[index]["disabled"] = false;
+      if (index !== -1) customers[index]["disabled"] = false;
     } else {
       let index = customers.findIndex((customer) => e.value === customer.value);
-      if (index != -1) customers[index]["disabled"] = true;
+      if (index !== -1) customers[index]["disabled"] = true;
     }
   };
 

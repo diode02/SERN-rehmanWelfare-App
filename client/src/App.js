@@ -38,7 +38,6 @@ function App() {
     { label: "All Products", icon: "pi pi-user" },
     { label: "New Customer", icon: "pi pi-user-plus" },
     { label: "Add Product", icon: "pi pi-star-o" },
-    { label: "Invoices", icon: "pi pi-star-o" },
   ];
 
   const handleSetActiveItem = (url) => {
@@ -67,9 +66,8 @@ function App() {
       case "All Products":
         history.push("/products");
         break;
-      case "  ":
-        history.push("/invoices");
-        break;
+      default:
+        history.push("/");
     }
   };
 

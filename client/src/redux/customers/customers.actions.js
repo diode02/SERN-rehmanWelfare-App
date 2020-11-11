@@ -28,3 +28,17 @@ export const postCustomerFailure = (errorMessage) => ({
   type: CustomersActionTypes.POST_CUSTOMER_FAILURE,
   payload: errorMessage,
 });
+export const getAvatarStart = (customer_id) => ({
+  type: CustomersActionTypes.GET_AVATAR_START,
+  payload: customer_id,
+});
+
+export const getAvatarSucess = (pictureAndId) => ({
+  type: CustomersActionTypes.GET_AVATAR_SUCCESS,
+  payload: pictureAndId,
+});
+
+export const getAvatarFailure = (error) => ({
+  type: CustomersActionTypes.GET_AVATAR_FAILURE,
+  payload: error,
+});

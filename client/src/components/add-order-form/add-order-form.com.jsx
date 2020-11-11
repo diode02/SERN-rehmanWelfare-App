@@ -38,7 +38,6 @@ const AddOrderForm = () => {
         });
         getInvoiceDataByOrder(orders[orders.length - 1].order_id).then(
           (res) => {
-            console.log(res);
             let reD = res[0];
             invoiceData.invoice_no = reD.RID;
             invoiceData.address = reD.ADDRESS;
@@ -148,12 +147,8 @@ const AddOrderForm = () => {
   let today = new Date();
   let month = today.getMonth();
   let year = today.getFullYear();
-  let prevMonth = month === 0 ? 11 : month - 1;
-  let prevYear = prevMonth === 11 ? year - 1 : year;
   let nextMonth = month === 11 ? 0 : month + 1;
   let nextYear = nextMonth === 0 ? year + 1 : year;
-
-  const [date4, setDate4] = useState(null);
 
   let minDate = new Date();
   minDate.setMonth(month);
@@ -169,7 +164,7 @@ const AddOrderForm = () => {
   };
 
   const handleSelect = (id, e) => {
-    if (id != "") {
+    if (id !== "") {
       let index = customers.findIndex((customer) => id === customer.value);
       customers[index]["disabled"] = false;
     }

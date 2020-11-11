@@ -1,5 +1,6 @@
 const invoiceData = {
   id: "5f9d01f0a21c3d044548db3a",
+  ordOrIns: "ord",
   invoice_no: "NA",
   first_name: "NA",
   last_name: "NA",
@@ -18,16 +19,14 @@ const invoiceData = {
   username: "NA",
   ins_start_date: "NA",
   installments_payment_id: "NA",
-  items: [
-    {
-      sno: "NA",
-      desc: "NA",
-      qty: "NA",
-      rate: 0,
-      pid: "NA",
-      tot: 0,
-    },
-  ],
+  order: {
+    sno: "NA",
+    desc: "NA",
+    qty: "NA",
+    rate: 0,
+    pid: "NA",
+    tot: 0,
+  },
   insts: [
     {
       installment_no: "NA",

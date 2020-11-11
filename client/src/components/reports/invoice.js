@@ -1,5 +1,5 @@
 import React from "react";
-import { Page, Document, Image, StyleSheet, View } from "@react-pdf/renderer";
+import { Page, Document, StyleSheet, View } from "@react-pdf/renderer";
 import InvoiceTitle from "./invoiceTitle";
 import BillTo from "./billTo";
 import InvoiceNo from "./invoiceNo";
@@ -34,7 +34,7 @@ const Invoice = ({ invoice }) => (
       <InvoiceTitle title="Rehman Welfare" />
       <InvoiceNo invoice={invoice} />
       <BillTo invoice={invoice} />
-      {invoice.items !== "NA" ? (
+      {invoice.ordOrIns !== "ins" ? (
         <View>
           <InvoiceItemsTable invoice={invoice} />
           <InvoicePaymentsTable invoice={invoice} />

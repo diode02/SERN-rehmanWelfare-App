@@ -4,6 +4,8 @@ import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputMask } from "primereact/inputmask";
+import { FileUpload } from "primereact/fileupload";
+
 import { InputTextarea } from "primereact/inputtextarea";
 import { postCustomerStart } from "../../redux/customers/customers.actions";
 const AddCustomerForm = () => {
@@ -46,6 +48,7 @@ const AddCustomerForm = () => {
     address: "",
     city: "",
     note: "",
+    photo: null,
   });
   const {
     customer_id,
@@ -67,12 +70,19 @@ const AddCustomerForm = () => {
     event.preventDefault();
     dispatch(postCustomerStart(customerData));
   };
+
+  const onChangeHandler = (event) => {
+    console.log(event.target.files[0]);
+    setCustomerData({ ...customerData, photo: event.target.files[0] });
+  };
   return (
     <div className="card">
       <Toast ref={(el) => (toast = el)} />
 
       {/* <div onClick={() => onClick()}>Add Customer</div> */}
       <form className="p-fluid p-formgrid p-grid" onSubmit={handleSubmit}>
+        <input type="file" name="file" onChange={onChangeHandler} />
+
         <div className="p-field p-col-12">
           <label htmlFor="cnic">Customer CNIC Number</label>
           <InputMask

@@ -18,10 +18,22 @@ export async function getCustomersApi(dataWhere) {
 }
 
 export async function postCustomerApi(customer) {
+  const dataa = new FormData();
+
+  var formData = new FormData();
+  // formData.append("photo", customer.photo);
+  // formData.append("customer", customer);
+
+  Object.keys(customer).map((key) => {
+    formData.append(key, customer[key]);
+  });
+  for (var value of formData.values()) {
+    console.log(value);
+  }
   const data = await axios({
     method: "post",
-    url: "customers",
-    data: customer,
+    url: "customers/avatar",
+    data: formData,
   }).then(
     (response) => {
       return getInGoodShape(response.data);
@@ -75,6 +87,18 @@ export async function getOrdersWhereUser(dataWhere) {
     (response) => {
       let data = Object.values(response.data);
       return data;
+    },
+    (error) => {
+      throw error;
+    }
+  );
+  return data;
+}
+
+export async function getAvatarApi(customer_id) {
+  const data = await axios.get("/customers/avatar/" + customer_id).then(
+    (response) => {
+      return response.data;
     },
     (error) => {
       throw error;
