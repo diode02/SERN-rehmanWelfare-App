@@ -37,13 +37,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <LogoContainer to="/">
-        <h1
-          style={{
-            fontWeight: "bold",
-          }}
-        >
-          LOGO
-        </h1>
+        <h1>REHMAN LIAQAT WELFARE</h1>
       </LogoContainer>
 
       <OptionsContainer>

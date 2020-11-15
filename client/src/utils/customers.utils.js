@@ -18,18 +18,10 @@ export async function getCustomersApi(dataWhere) {
 }
 
 export async function postCustomerApi(customer) {
-  const dataa = new FormData();
-
   var formData = new FormData();
-  // formData.append("photo", customer.photo);
-  // formData.append("customer", customer);
-
   Object.keys(customer).map((key) => {
     formData.append(key, customer[key]);
   });
-  for (var value of formData.values()) {
-    console.log(value);
-  }
   const data = await axios({
     method: "post",
     url: "customers/avatar",

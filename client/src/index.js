@@ -8,18 +8,11 @@ import { BrowserRouter } from "react-router-dom";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import * as serviceWorker from "./serviceWorker";
-import { ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/core";
-import customTheme from "./theme";
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
-        <ThemeProvider theme={customTheme}>
-          <CSSReset />
-          <ColorModeProvider>
-            <App />
-          </ColorModeProvider>
-        </ThemeProvider>
+        <App />
       </BrowserRouter>
     </PersistGate>
   </Provider>,

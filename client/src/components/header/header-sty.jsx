@@ -13,13 +13,12 @@ export const HeaderContainer = styled.div`
 `;
 
 export const LogoContainer = styled(Link)`
-  height: 100%;
-  width: 70px;
-  padding: 25px;
+  text-decoration: none;
+  color: white;
 `;
 
 export const OptionsContainer = styled.div`
-  width: 50%;
+  width: 20%;
   height: 100%;
   display: flex;
   align-items: center;

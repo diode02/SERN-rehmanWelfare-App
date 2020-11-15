@@ -252,6 +252,11 @@ const PayInstallmentForm = ({
             style={{
               fontWeight: "bolder",
               fontSize: "1.2rem",
+              backgroundColor: "#2385ED",
+              color: "white",
+              padding: "10px 15px",
+              textAlign: "center",
+              cursor: "pointer",
             }}
           >
             Auto Fill

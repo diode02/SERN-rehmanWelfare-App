@@ -5,7 +5,7 @@ import invoiceData from "../../data/invoice-data";
 
 const InvoiceCom = () => {
   return (
-    <PDFViewer width="100%" height="800" className="app">
+    <PDFViewer width="100%" height="1200vh" className="app">
       <Invoice invoice={invoiceData} />
     </PDFViewer>
   );

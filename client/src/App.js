@@ -130,11 +130,11 @@ function App() {
             path="/products"
             component={user ? ProductsPage : SignInSignUp}
           />
-          <Route
+          {/* <Route
             exact
             path="/invoices"
             component={user ? InvoicesPage : SignInSignUp}
-          />
+          /> */}
           <Route exact path="/invoice" component={InvoiceCom} />
         </Switch>
       </div>

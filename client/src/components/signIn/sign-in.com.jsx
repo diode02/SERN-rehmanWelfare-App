@@ -88,15 +88,20 @@ const SignIn = () => {
           </div>
 
           <br />
-          <Button
+          <button
             type="submit"
-            value="Signin"
             style={{
-              width: "23%",
+              width: "20%",
+              color: "white",
+              fontWeight: "bolder",
+              fontSize: "1.1rem",
+              backgroundColor: "#406AC4",
+              padding: "10px 15px",
+              borderRadius: "7px",
             }}
           >
-            Sign in
-          </Button>
+            Sign In
+          </button>
           <div
             className=""
             style={{
