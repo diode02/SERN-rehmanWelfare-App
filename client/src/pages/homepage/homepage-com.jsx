@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import ImportForm from "../../components/folderChoose/folderChoose.com";
 import { MenuItemContainer } from "./homepage-sty";
 const HomePage = (props) => {
   let history = useHistory();
@@ -62,6 +63,7 @@ const HomePage = (props) => {
           </div>
         );
       })}
+
       {/* <div className="p-col">
         <div className="box box-stretched">4</div>
       </div>

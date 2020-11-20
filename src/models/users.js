@@ -26,6 +26,30 @@ module.exports = function(sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    sec_que_one: {
+      type: DataTypes.STRING(60),
+      allowNull: true
+    },
+    sec_que_two: {
+      type: DataTypes.STRING(60),
+      allowNull: true
+    },
+    sec_que_three: {
+      type: DataTypes.STRING(60),
+      allowNull: true
+    },
+    first_name: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    last_name: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    created_by: {
+      type: DataTypes.STRING(45),
+      allowNull: true
     }
   }, {
     sequelize,

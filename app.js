@@ -28,6 +28,12 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, "public")));
 // app.use("/static", express.static(path.join(__dirname, "public")));
 
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 app.use("/categories", categoriesRoutes);
 app.use("/users", usersRouter);
 app.use("/customers", customersRoutes);

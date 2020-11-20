@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { emailSignInStart } from "../../redux/users/user.actions";
-import { Link } from "react-router-dom";
 
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
@@ -11,8 +10,8 @@ const SignIn = () => {
   const dispatch = useDispatch();
 
   const [userCredentials, setUserCredentials] = useState({
-    username_id: "qaskhan02",
-    password: "khankhan",
+    username_id: "rehman",
+    password: "rehmanrehman",
   });
 
   const { username_id, password } = userCredentials;
@@ -29,99 +28,59 @@ const SignIn = () => {
 
   return (
     <div>
-      <div
+      <h1 className="p-text-center">SIGNIN</h1>
+      <form
+        className="p-fluid"
+        onSubmit={handleSubmit}
         style={{
-          width: "40%",
-          margin: "0 auto",
-          textAlign: "center",
-          backgroundColor: "rgb(96%, 96%, 96%)",
-          borderRadius: "10px",
-          fontWeight: "bolder",
-          marginTop: "10%",
+          textAlign: "left",
+          padding: "40px",
         }}
       >
-        <h1
-          style={{
-            fontWeight: "bolder",
-            fontSize: "1.7rem",
-            color: "gray",
-          }}
-        >
-          SIGNIN
-        </h1>
-        <form
-          className="p-fluid"
-          onSubmit={handleSubmit}
-          style={{
-            textAlign: "left",
-            padding: "40px",
-          }}
-        >
-          <div>
-            <label className="" htmlFor="email">
-              User Name
-            </label>
-            <div className="">
-              <InputText
-                id="email"
-                name="username_id"
-                required
-                value={username_id}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-          <br />
-          <div>
-            <label htmlFor="password">Password</label>
-            <div>
-              <InputText
-                id="password"
-                label="Password"
-                name="password"
-                type="password"
-                required
-                value={password}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-
-          <br />
-          <button
-            type="submit"
-            style={{
-              width: "20%",
-              color: "white",
-              fontWeight: "bolder",
-              fontSize: "1.1rem",
-              backgroundColor: "#406AC4",
-              padding: "10px 15px",
-              borderRadius: "7px",
-            }}
-          >
-            Sign In
-          </button>
-          <div
-            className=""
-            style={{
-              fontWeight: "bolder",
-            }}
-          >
-            Dont have an account? <Link to="/login">Create new</Link>
-          </div>
-        </form>
-        <span
-          style={{
-            color: "red",
-            marginTop: "10px",
-          }}
-        >
-          {errorMessage === "Request failed with status code 400"
-            ? "Please check your email and password"
-            : ""}
+        <span className="p-float-label">
+          <InputText
+            id="in"
+            name="username_id"
+            value={username_id}
+            onChange={handleChange}
+          />
+          <label htmlhtmlFor="in">Username</label>
         </span>
-      </div>
+        <span className="p-float-label p-mt-4">
+          <InputText
+            id="in"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+          <label htmlhtmlFor="in">Password</label>
+        </span>
+
+        <br />
+        <Button
+          type="submit"
+          label="Sign In"
+          style={{
+            width: "20%",
+            color: "white",
+            fontWeight: "bolder",
+            fontSize: "1.1rem",
+            backgroundColor: "#406AC4",
+            padding: "10px 15px",
+            borderRadius: "7px",
+          }}
+        />
+      </form>
+      <span
+        style={{
+          color: "red",
+          marginTop: "10px",
+        }}
+      >
+        {errorMessage === "Request failed with status code 400"
+          ? "Please check your email and password"
+          : ""}
+      </span>
     </div>
   );
 };

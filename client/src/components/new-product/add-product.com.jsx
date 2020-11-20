@@ -14,10 +14,11 @@ const NewProduct = () => {
   const prevProducts = usePrevious(products);
   const [displayBasic, setdisplayBasic] = useState(false);
   let toast;
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (prevProducts)
-      if (prevProducts.length - products.length === -1) {
+      if (prevProducts.length - products.length === -1 && submitted) {
         setdisplayBasic(!displayBasic);
         toast.show({
           severity: "success",
@@ -30,6 +31,7 @@ const NewProduct = () => {
           price: 0,
           note: "",
         });
+        setSubmitted(false);
       }
   }, [products, displayBasic, prevProducts, toast]);
 
@@ -57,6 +59,7 @@ const NewProduct = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(postProductStart(productData));
+    setSubmitted(true);
   };
   return (
     <div className="card">

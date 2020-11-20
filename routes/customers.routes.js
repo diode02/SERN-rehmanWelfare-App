@@ -3,7 +3,6 @@ const { Op } = require("sequelize");
 var router = express.Router();
 const db = require("../src/models");
 const multer = require("multer");
-const sharp = require("sharp");
 const fs = require("fs");
 const formidable = require("formidable");
 var path = require("path");
@@ -89,6 +88,9 @@ router.delete("/:customer_id", async (req, res, next) => {
         customer_id: req.params.customer_id,
       },
     });
+    // if (`../assests/profile/${req.params.customer_id}.jpg`)
+    //   fs.unlinkSync(`../assests/profile/${req.params.customer_id}.jpg`);
+
     res.status(200).send({ totalDeleted: response });
   } catch (error) {
     res.status(400).send(error);
@@ -184,24 +186,59 @@ var upload = multer({
 
 router.post("/avatar", async (req, res, next) => {
   // capture the encoded form data
+  // const form = formidable({ multiples: true });
+  // let response;
+  // form.parse(req, async (err, fields, files) => {
+  //   if (err) {
+  //     next(err);
+  //     return;
+  //   }
+  //   req.body = { ...fields };
+
+  //   try {
+  //     response = await db.customers.create({
+  //       ...req.body,
+  //       photoPath:
+  //         path.join(__dirname, "../") +
+  //         "assests/profile/" +
+  //         req.body.customer_id +
+  //         ".jpg",
+  //     });
+  // if (fields.photo) {
+  //   console.log(fields.photo);
+  //   console.log("base code run");
+  //   base64Img.imgSync(
+  //     fields.photo,
+  //     "./assests/profile/",
+  //     fields.customer_id
+  //   );
+  //     } else {
+  //       await upload(req, res, async function (err) {
+  //         if (err instanceof multer.MulterError) {
+  //           return res.status(500).json(err);
+  //         } else if (err) {
+  //           return res.status(500).json(err);
+  //         }
+  // return res.status(201).send(response);
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.status(500).send({ error: error.original });
+  //   }
+  // });
+
   const form = formidable({ multiples: true });
 
-  form.parse(req, (err, fields, files) => {
+  form.parse(req, async (err, fields, files) => {
     if (err) {
       next(err);
       return;
     }
     req.body = { ...fields };
-  });
-  upload(req, res, async function (err) {
-    if (err instanceof multer.MulterError) {
-      return res.status(500).json(err);
-    } else if (err) {
-      return res.status(500).json(err);
-    }
 
     try {
-      const response = await db.customers.create({
+      response = await db.customers.create({
         ...req.body,
         photoPath:
           path.join(__dirname, "../") +
@@ -209,9 +246,26 @@ router.post("/avatar", async (req, res, next) => {
           req.body.customer_id +
           ".jpg",
       });
-      return res.status(201).send(response);
+      if (fields.photo && fields.photo.toString()[0] == "d") {
+        base64Img.imgSync(
+          fields.photo,
+          "./assests/profile/",
+          fields.customer_id
+        );
+        return res.status(201).send(response);
+      } else {
+        return res.status(201).send(response);
+      }
     } catch (error) {
-      res.status(500).send({ error: error.original });
+      return res.status(500).send({ error: error.original });
+    }
+  });
+
+  upload(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).json(err);
+    } else if (err) {
+      return res.status(500).json(err);
     }
   });
 });

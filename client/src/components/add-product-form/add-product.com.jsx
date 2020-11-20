@@ -12,13 +12,14 @@ const AddProductForm = () => {
   const prevProducts = usePrevious(products);
   const [displayBasic, setdisplayBasic] = useState(false);
   let toast;
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (prevProducts)
-      if (prevProducts.length - products.length === -1) {
+      if (prevProducts.length - products.length === -1 && submitted) {
         setdisplayBasic(!displayBasic);
         toast.show({
-          severity: "success",
+          severity: "Success",
           summary: "Success Message",
           detail: "New Product Added",
           life: 3000,
@@ -28,6 +29,7 @@ const AddProductForm = () => {
           price: 0,
           note: "",
         });
+        setSubmitted(false);
       }
   }, [products, displayBasic, prevProducts, toast]);
 
@@ -45,6 +47,7 @@ const AddProductForm = () => {
   };
 
   const handleSubmit = (event) => {
+    setSubmitted(true);
     event.preventDefault();
     dispatch(postProductStart(productData));
   };

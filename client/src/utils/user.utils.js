@@ -8,7 +8,21 @@ export async function createUserWithEmailAndPassword(userData) {
     data: userData,
   })
     .then((response) => {
-      response.data.data["token"] = response.data.token;
+      return response.data.data;
+    })
+    .catch((error) => {
+      throw error.response.data;
+    });
+  return response;
+}
+
+export async function resetSecVerify(userData) {
+  const response = await axios({
+    method: "post",
+    url: `${url}secVerify`,
+    data: userData,
+  })
+    .then((response) => {
       return response.data.data;
     })
     .catch((error) => {
@@ -34,16 +48,50 @@ export async function signInWithEmailAndPassword(userData) {
 
 export async function updateUserAsync(payload) {
   var bodyParameters = {
-    ...payload.data,
-  };
-  var config = {
-    headers: { Authorization: payload.token },
+    ...payload,
   };
   return await axios
-    .patch(url + "updateuser", bodyParameters, config)
+    .patch(url + "updateuser", bodyParameters)
     .then((response) => {
-      response.data.user["token"] = response.data.token;
-      return response.data.user;
+      // response.data.user["token"] = response.data.token;
+      console.log(response);
+      return response.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export async function resetUserPassword(payload) {
+  return await axios
+    .patch(url + "resetuser", payload)
+    .then((response) => {
+      // response.data.user["token"] = response.data.token;
+      console.log(response);
+      return response.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export async function updateUserSecAsync(payload) {
+  return await axios
+    .patch(url + "updateusersec", payload)
+    .then((response) => {
+      // response.data.user["token"] = response.data.token;
+      return response;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export async function generateBackup() {
+  return await axios
+    .get(url + "genBackup")
+    .then((response) => {
+      return response;
     })
     .catch((error) => {
       throw error;

@@ -22,6 +22,8 @@ import AddProductPage from "./pages/product/product.com";
 import ProductsPage from "./pages/products/products.com";
 import InvoiceCom from "./components/reports/inoice.com";
 import InvoicesPage from "./pages/invoices/invoices.com";
+import Dashboard from "./pages/account-managment/account-managment.com";
+import ResetPage from "./pages/accunt-reset/account-reset.com";
 
 function App() {
   let history = useHistory();
@@ -130,11 +132,12 @@ function App() {
             path="/products"
             component={user ? ProductsPage : SignInSignUp}
           />
-          {/* <Route
+          <Route
             exact
-            path="/invoices"
-            component={user ? InvoicesPage : SignInSignUp}
-          /> */}
+            path="/account"
+            component={user ? Dashboard : SignInSignUp}
+          />
+          <Route exact path="/reset" component={ResetPage} />
           <Route exact path="/invoice" component={InvoiceCom} />
         </Switch>
       </div>

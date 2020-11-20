@@ -1,0 +1,11 @@
+.p-tabview-nav {
+  display: block !important;
+  float: left;
+  margin-right: 2% !important;
+  border-bottom: none !important;
+}
+
+.p-tabview-nav-link {
+  margin-bottom: 1.9em !important;
+  border: none !important;
+}
