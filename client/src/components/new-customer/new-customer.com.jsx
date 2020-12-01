@@ -33,6 +33,17 @@ const NewCustomer = () => {
           detail: "Message Content",
           life: 3000,
         });
+        setCustomerData({
+          customer_id: "",
+          first_name: "",
+          last_name: "",
+          mobile_number: "",
+          home_other_number: "",
+          address: "",
+          city: "",
+          note: "",
+          photo: null,
+        });
       }
   }, [customers, displayBasic, prevCustomer, toast]);
 
@@ -116,16 +127,16 @@ const NewCustomer = () => {
       <Dialog
         header="Capture Photo"
         visible={cameraShow}
-        style={{ width: "50vw" }}
+        style={{ width: "24.5vw" }}
         modal
         onHide={onHide}
       >
         <Webcam
           audio={false}
-          height={720}
+          height={420}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          width={1280}
+          width={420}
           videoConstraints={videoConstraints}
         />
         <Button label="Take Photo" onClick={capture} />

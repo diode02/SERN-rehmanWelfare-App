@@ -9,7 +9,7 @@ import { fetchOrdersStart } from "../../redux/orders/orders.actions";
 import invoiceData from "../../data/invoice-data";
 import { getInvoiceDataByOrder } from "../../utils/invoices.utils";
 import { getInstallmentsApi } from "../../utils/installments.utils";
-
+import { orderPrint } from "../../utils/orders.utils";
 const AllOrders = () => {
   const ordersModi = useSelector((state) => state.orders.orders);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -23,10 +23,6 @@ const AllOrders = () => {
   const onClick = (name, position) => {
     setDisplayBasic(true);
   };
-
-  // useEffect(() => {
-  //   if (displayBasic == true) ;
-  // }, [displayBasic]);
 
   const updateOrders = (install) => {
     // setOrders(
@@ -44,34 +40,12 @@ const AllOrders = () => {
 
   const handlePrint = (_id) => {
     getInvoiceDataByOrder(_id).then((res) => {
-      let reD = res[0];
-      invoiceData.invoice_no = reD.RID;
-      invoiceData.address = reD.ADDRESS;
-      invoiceData.first_name = reD.FNAME;
-      invoiceData.last_name = reD.LNAME;
-      invoiceData.mobile = reD.MOBILE;
-      invoiceData.trans_date = reD.ORDER_DATE;
-      invoiceData.gurr_one = reD.GU_ONE;
-      invoiceData.gurr_two = reD.GU_TWO;
-      invoiceData.gurr_three = reD.GU_THREE;
-      invoiceData.discount = reD.DISCOUNT;
-      invoiceData.pid = reD.PID;
-      invoiceData.cid = reD.CID;
-      invoiceData.oid = reD.OID;
-      invoiceData.tot_int = reD.TOT_INS;
-      invoiceData.advance = reD.ADVANCE;
-      invoiceData.username = reD.USERNAME;
-      invoiceData.ins_start_date = reD.INS_START_DATE;
-      invoiceData.order.desc = reD.PNAME;
-      invoiceData.order.rate = reD.AMOUNT_ITEM;
-      invoiceData.order.qty = reD.QUANTITY;
-      invoiceData.order.pid = reD.PID;
-      invoiceData.order.tot = reD.TOTAL;
+      orderPrint(res);
       invoiceData.ordOrIns = "ord";
 
       getInstallmentsApi({
         where: {
-          order_id: reD.OI,
+          order_id: res[0].OI,
         },
       }).then((resp) => {
         invoiceData.insts = resp;

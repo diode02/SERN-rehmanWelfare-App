@@ -7,6 +7,8 @@ import { InputText } from "primereact/inputtext";
 import { InputMask } from "primereact/inputmask";
 import { FileUpload } from "primereact/fileupload";
 import { Dialog } from "primereact/dialog";
+import Camera from "react-html5-camera-photo";
+import "react-html5-camera-photo/build/css/index.css";
 
 import { InputTextarea } from "primereact/inputtextarea";
 import { postCustomerStart } from "../../redux/customers/customers.actions";
@@ -19,6 +21,8 @@ const AddCustomerForm = () => {
   const [visibleChoose, setVisibleChoose] = useState(false);
   const webcamRef = React.useRef(null);
   let toast;
+
+  console.log(":here");
 
   const [cameraShow, setCameraShow] = useState(false);
 
@@ -107,6 +111,10 @@ const AddCustomerForm = () => {
     setCustomerData({ ...customerData, photo: imgSrc });
   }, [webcamRef]);
 
+  const handleTakePhoto = (picData) => {
+    setCustomerData({ ...customerData, photo: picData });
+  };
+
   const videoConstraints = {
     width: 1280,
     height: 720,
@@ -127,17 +135,22 @@ const AddCustomerForm = () => {
       <Dialog
         header="Capture Photo"
         visible={cameraShow}
-        style={{ width: "50vw" }}
+        style={{ width: "24.5vw" }}
         modal
         onHide={onHide}
       >
-        <Webcam
+        {/* <Webcam
           audio={false}
-          height={720}
+          height={420}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          width={1280}
+          width={420}
           videoConstraints={videoConstraints}
+        /> */}
+        <Camera
+          onTakePhoto={(dataUri) => {
+            handleTakePhoto(dataUri);
+          }}
         />
         <Button label="Take Photo" onClick={capture} />
       </Dialog>

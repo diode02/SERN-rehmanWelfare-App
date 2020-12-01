@@ -13,6 +13,8 @@ import { selectPrices } from "../../redux/products/products.selector";
 import { useHistory } from "react-router-dom";
 import invoiceData from "../../data/invoice-data";
 import { getInvoiceDataByOrder } from "../../utils/invoices.utils";
+import { orderPrint } from "../../utils/orders.utils";
+import { getInstallmentsApi } from "../../utils/installments.utils";
 
 const AddOrderForm = () => {
   const dispatch = useDispatch();
@@ -39,28 +41,15 @@ const AddOrderForm = () => {
         getInvoiceDataByOrder(orders[orders.length - 1].order_id).then(
           (res) => {
             let reD = res[0];
-            invoiceData.invoice_no = reD.RID;
-            invoiceData.address = reD.ADDRESS;
-            invoiceData.first_name = reD.FNAME;
-            invoiceData.last_name = reD.LNAME;
-            invoiceData.mobile = reD.MOBILE;
-            invoiceData.trans_date = reD.ORDER_DATE;
-            invoiceData.gurr_one = reD.GU_ONE;
-            invoiceData.gurr_two = reD.GU_TWO;
-            invoiceData.gurr_three = reD.GU_THREE;
-            invoiceData.discount = reD.DISCOUNT;
-            invoiceData.pid = reD.PID;
-            invoiceData.cid = reD.CID;
-            invoiceData.tot_int = reD.TOT_INS;
-            invoiceData.advance = reD.ADVANCE;
-            invoiceData.username = reD.USERNAME;
-            invoiceData.ins_start_date = reD.INS_START_DATE;
-            invoiceData.items[0].desc = reD.PNAME;
-            invoiceData.items[0].rate = reD.AMOUNT_ITEM;
-            invoiceData.items[0].qty = reD.QUANTITY;
-            invoiceData.items[0].pid = reD.PID;
-            invoiceData.items[0].tot = reD.TOTAL;
-            history.push("/invoice");
+            orderPrint(res);
+            getInstallmentsApi({
+              where: {
+                order_id: res[0].OI,
+              },
+            }).then((resp) => {
+              invoiceData.insts = resp;
+              history.push("/invoice");
+            });
           }
         );
 
@@ -115,8 +104,6 @@ const AddOrderForm = () => {
 
   const onChange = ({ target }) => {
     const { name, value } = target;
-    console.log("discount");
-
     //for discount check
     if (name === "discount") {
       if (parseInt(value) > amount_item) {

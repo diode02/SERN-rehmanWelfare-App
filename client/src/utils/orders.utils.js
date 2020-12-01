@@ -1,4 +1,5 @@
 import axios from "axios";
+import invoiceData from "../data/invoice-data";
 
 export async function getOdersAPI() {
   const data = await axios({
@@ -109,3 +110,30 @@ const getInGoodShape = (order) => {
     ],
   };
 };
+
+export function orderPrint(response) {
+  let resOrderDetail = response[0];
+  invoiceData.invoice_no = resOrderDetail.RID;
+  invoiceData.address = resOrderDetail.ADDRESS;
+  invoiceData.first_name = resOrderDetail.FNAME;
+  invoiceData.last_name = resOrderDetail.LNAME;
+  invoiceData.mobile = resOrderDetail.MOBILE;
+  invoiceData.trans_date = resOrderDetail.ORDER_DATE;
+  invoiceData.gurr_one = resOrderDetail.GU_ONE;
+  invoiceData.gurr_two = resOrderDetail.GU_TWO;
+  invoiceData.gurr_three = resOrderDetail.GU_THREE;
+  invoiceData.discount = resOrderDetail.DISCOUNT;
+  invoiceData.pid = resOrderDetail.PID;
+  invoiceData.cid = resOrderDetail.CID;
+  invoiceData.oid = resOrderDetail.OID;
+  invoiceData.tot_int = resOrderDetail.TOT_INS;
+  invoiceData.advance = resOrderDetail.ADVANCE;
+  invoiceData.username = resOrderDetail.USERNAME;
+  invoiceData.ins_start_date = resOrderDetail.INS_START_DATE;
+  invoiceData.order.desc = resOrderDetail.PNAME;
+  invoiceData.order.rate = resOrderDetail.AMOUNT_ITEM;
+  invoiceData.order.qty = resOrderDetail.QUANTITY;
+  invoiceData.order.pid = resOrderDetail.PID;
+  invoiceData.order.tot = resOrderDetail.TOTAL;
+  invoiceData.ordOrIns = "ord";
+}

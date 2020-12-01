@@ -91,6 +91,12 @@ export async function generateBackup() {
   return await axios
     .get(url + "genBackup")
     .then((response) => {
+      // let url = response.data;
+      // let a = document.createElement("a");
+      // a.href = url;
+      // a.download = "employees.json";
+      // a.click();
+      // window.location.href = response.data;
       return response;
     })
     .catch((error) => {

@@ -32,7 +32,6 @@ const Header = () => {
       label: "Signout",
       icon: "pi pi-sign-out",
       command: () => {
-        // dispatch(signOutStart());
         onClick();
       },
     },
@@ -46,7 +45,7 @@ const Header = () => {
     setLogoutDisplay(false);
   };
 
-  const onSignoutBackup = async () => {
+  const onSignout = async () => {
     setLogoutDisplay(false);
     try {
       await generateBackup();
@@ -57,7 +56,7 @@ const Header = () => {
     }
   };
 
-  const onSignOut = () => {
+  const onSignOutWithoutBackup = () => {
     setLogoutDisplay(false);
     dispatch(signOutStart());
   };
@@ -69,13 +68,13 @@ const Header = () => {
           <Button
             label="No"
             icon="pi pi-times"
-            onClick={onSignOut}
+            onClick={onSignOutWithoutBackup}
             className="p-button-text"
           />
           <Button
             label="Yes"
             icon="pi pi-check"
-            onClick={onSignoutBackup}
+            onClick={onSignout}
             autoFocus
           />
         </div>
@@ -85,7 +84,7 @@ const Header = () => {
     return (
       <>
         <Dialog
-          header="Confirm Database Backup"
+          header="Confirm Signout "
           visible={logoutDisplay}
           modal
           style={{ width: "350px" }}
@@ -97,7 +96,19 @@ const Header = () => {
               className="pi pi-exclamation-triangle p-mr-3"
               style={{ fontSize: "2rem" }}
             />
-            <span>Are you sure you want to proceed?</span>
+            <span>Want to take Backup before you Logout?</span>
+            {/* <div style={{}} className="p-mt-4">
+              Take Backup of your data by clicking
+              <a
+                href={"/users/genBackup"}
+                style={{ textDecoration: "none" }}
+                download="save"
+              >
+                {` This `}
+              </a>
+              link on default location. To save in other location, Right Click
+              and select Save Link As
+            </div> */}
           </div>
         </Dialog>
       </>

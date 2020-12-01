@@ -43,19 +43,24 @@ router.patch("/resetuser", async (req, res, next) => {
 
 router.get("/genBackup", async (req, res, next) => {
   try {
+    const fileName = `rehman_backup.sql`;
     exec(
-      `sudo mysqldump -u root -pkhan01  rehman_liaqat_welfare > rehmanBackup${DATE.now()}.sql`,
+      `mysqldump -u root -pkhan01  --result-file=./assests/database-backups/${fileName} rehman_test > rehmanBackup.sql`,
       (error, stdout, stderr) => {
         if (error) {
           console.log(`error: ${error.message}`);
           return;
         }
         if (stderr) {
-          console.log(`stderr: ${stderr}`);
+          // console.log(`stderr: ${Date.now()} dir = ${__dirname}`);
+          const file = `./assests/database-backups/${fileName}`;
+          res.download(file, "backup");
+          // res.status(200).send(`stdout: ${stdout}`);
+
           return;
         }
         console.log(stdout);
-        res.status(200).send(`stdout: ${stdout}`);
+        res.status(200).send(``);
       }
     );
   } catch (error) {
