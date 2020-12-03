@@ -118,7 +118,7 @@ const Header = () => {
   return (
     <HeaderContainer>
       <LogoContainer to="/">
-        <h1>REHMAN LIAQAT WELFARE</h1>
+        <h1>REHMAN LIAQAT FOUNDATION & ELECTRONICS</h1>
       </LogoContainer>
 
       <OptionsContainer>

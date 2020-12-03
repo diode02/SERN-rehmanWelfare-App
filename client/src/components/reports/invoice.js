@@ -31,7 +31,7 @@ const Invoice = ({ invoice }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* <Image style={styles.logo} src={logo} /> */}
-      <InvoiceTitle title="Rehman Welfare" />
+      <InvoiceTitle title="Rehman Liaqat Foundation & Electronics" />
       <InvoiceNo invoice={invoice} />
       <BillTo invoice={invoice} />
       {invoice.ordOrIns !== "ins" ? (
