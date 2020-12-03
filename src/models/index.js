@@ -16,6 +16,7 @@ sequelize = new Sequelize("rehman_test", "root", "khan01", {
   host: "localhost",
   dialect: "mysql" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
   logging: false, //disabled logging
+  timezone: "+05:00",
 });
 // }
 

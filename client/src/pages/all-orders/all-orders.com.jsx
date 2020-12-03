@@ -10,6 +10,9 @@ import invoiceData from "../../data/invoice-data";
 import { getInvoiceDataByOrder } from "../../utils/invoices.utils";
 import { getInstallmentsApi } from "../../utils/installments.utils";
 import { orderPrint } from "../../utils/orders.utils";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+
 const AllOrders = () => {
   const ordersModi = useSelector((state) => state.orders.orders);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -57,6 +60,7 @@ const AllOrders = () => {
   const formateStatus = (rowData) => {
     return rowData.order_status ? "Paid" : "Un Paid";
   };
+
   const [expandedRows, setexpandedRows] = useState(null);
 
   const rowExpansionTemplate = (data) => {
@@ -92,24 +96,57 @@ const AllOrders = () => {
         selectionMode="single"
       >
         <Column expander style={{ width: "3em" }} />
-        <Column field="order_id" header="Order ID" filter sortable></Column>
+        <Column
+          field="order_id"
+          filterPlaceholder="Enter Order ID"
+          header="Order ID"
+          filter
+          sortable
+        ></Column>
         <Column
           field="customer_id"
           header="Customer ID"
           filter
+          filterPlaceholder="Enter Customer ID"
           sortable
         ></Column>
-        <Column field="product_id" header="Product ID" filter sortable></Column>
-        <Column field="total" header="Total" filter sortable></Column>
-        <Column field="createdAt" header="Date" filter sortable></Column>
+        <Column
+          field="product_id"
+          filterPlaceholder="Enter Product ID"
+          header="Product ID"
+          filter
+          sortable
+        ></Column>
+        <Column
+          field="total"
+          filterPlaceholder="Enter Total"
+          header="Total"
+          filter
+          sortable
+        ></Column>
+        <Column
+          field="createdAt"
+          header="Date"
+          filterPlaceholder="Enter Date"
+          filter
+          sortable
+        ></Column>
         <Column
           field="order_status"
           header="Status"
           body={formateStatus}
           filter
+          filterPlaceholder="0:Un Paid | 1:Paid"
+          // filterFunction={filterStatus}
+          // sortable
+        ></Column>
+        <Column
+          field="username_id"
+          filterPlaceholder="admin username"
+          header="Bill By"
+          filter
           sortable
         ></Column>
-        <Column field="username_id" header="Bill By" filter sortable></Column>
       </DataTable>
       {selectedOrder ? (
         <EditOrderForm
